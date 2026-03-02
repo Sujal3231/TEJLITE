@@ -1,18 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Linkedin, Youtube, MapPin, Phone, Mail, ArrowRight, Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { fetchSiteSettings } from '@/services/products';
-import type { SiteSettings } from '@/types';
-
-// Sample categories - in production, fetch from Firebase
-const categories = [
-  { name: 'Chandeliers', slug: 'chandeliers' },
-  { name: 'Pendant Lights', slug: 'pendants' },
-  { name: 'Wall Lights', slug: 'wall-lights' },
-  { name: 'Ceiling Lights', slug: 'ceiling' },
-  { name: 'Floor & Table', slug: 'floor-table' },
-  { name: 'Outdoor Lighting', slug: 'outdoor' },
-];
+import { fetchSiteSettings, fetchCategories } from '@/services/products';
+import type { SiteSettings, Category } from '@/types';
 
 const quickLinks = [
   { label: 'Home', href: '/' },
@@ -27,10 +17,13 @@ const quickLinks = [
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loadingSettings, setLoadingSettings] = useState(true);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
   useEffect(() => {
     loadSettings();
+    loadCategories();
   }, []);
 
   const loadSettings = async () => {
@@ -42,6 +35,20 @@ const Footer = () => {
       console.error('Error loading settings:', error);
     } finally {
       setLoadingSettings(false);
+    }
+  };
+
+  const loadCategories = async () => {
+    try {
+      setLoadingCategories(true);
+      const data = await fetchCategories();
+      // Filter only active categories
+      const activeCategories = data.filter(cat => cat.status === 'active');
+      setCategories(activeCategories);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    } finally {
+      setLoadingCategories(false);
     }
   };
 
@@ -94,7 +101,7 @@ const Footer = () => {
 
       {/* Main Footer Content */}
       <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-12 ${categories.length > 0 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
           {/* Column 1: Brand Info */}
           <div className="space-y-6">
             <Link to="/" className="inline-block">
@@ -176,24 +183,43 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: Product Categories */}
-          <div>
-            <h4 className="font-heading text-sm uppercase tracking-[2px] text-[#C9A84C] mb-6">
-              Product Categories
-            </h4>
-            <ul className="space-y-3">
-              {categories.map((category) => (
-                <li key={category.slug}>
-                  <Link
-                    to={`/products?category=${category.slug}`}
-                    className="text-white/60 hover:text-[#C9A84C] transition-colors text-sm"
-                  >
-                    {category.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Column 3: Product Categories - Only show if categories exist */}
+          {categories.length > 0 && (
+            <div>
+              <h4 className="font-heading text-sm uppercase tracking-[2px] text-[#C9A84C] mb-6">
+                Product Categories
+              </h4>
+              {loadingCategories ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="w-6 h-6 animate-spin text-[#C9A84C]" />
+                </div>
+              ) : (
+                <ul className="space-y-3">
+                  {categories.slice(0, 6).map((category) => (
+                    <li key={category.id}>
+                      <Link
+                        to={`/products?category=${category.slug}`}
+                        className="text-white/60 hover:text-[#C9A84C] transition-colors text-sm"
+                      >
+                        {category.name}
+                      </Link>
+                    </li>
+                  ))}
+                  {categories.length > 6 && (
+                    <li>
+                      <Link
+                        to="/products"
+                        className="text-[#C9A84C] hover:text-white transition-colors text-sm font-medium inline-flex items-center gap-1"
+                      >
+                        View More
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              )}
+            </div>
+          )}
 
           {/* Column 4: Contact Info */}
           <div>
