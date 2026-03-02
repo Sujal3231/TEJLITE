@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, MessageCircle, Send, Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { fetchSiteSettings, type SiteSettings } from '@/services/products';
+import { fetchSiteSettings, submitEnquiry, type SiteSettings } from '@/services/products';
 import { initEmailJS, sendContactEmail } from '@/config/emailjs';
 
 const enquiryTypes = [
@@ -61,6 +61,19 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
+      // Save enquiry to Firebase
+      await submitEnquiry({
+        type: 'general',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        city: formData.city,
+        message: `Enquiry Type: ${formData.enquiryType}\nHow Heard: ${formData.howHeard || 'N/A'}\n\n${formData.message}`,
+        how_heard: formData.howHeard,
+        catalog_requested: false,
+      });
+
       // Send email via EmailJS
       await sendContactEmail({
         to_name: 'Tej Lite Team',
@@ -104,7 +117,7 @@ ${formData.message}
         });
       }, 3000);
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('Error sending enquiry:', error);
       toast.error('Failed to send enquiry. Please try again or contact us directly.');
     } finally {
       setIsSubmitting(false);

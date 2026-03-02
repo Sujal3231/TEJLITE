@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { 
   fetchProductById, 
   fetchProducts,
+  submitEnquiry,
   type Product 
 } from '@/services/products';
 import { initEmailJS, sendProductInquiry } from '@/config/emailjs';
@@ -109,7 +110,23 @@ const ProductDetail = () => {
     if (!product) return;
 
     try {
-      // Prepare product inquiry data
+      // Save enquiry to Firebase
+      await submitEnquiry({
+        type: 'product',
+        product_id: product.id,
+        product_name: product.name,
+        name: enquiryForm.name,
+        email: enquiryForm.email,
+        phone: enquiryForm.phone,
+        city: enquiryForm.city,
+        quantity: enquiryForm.quantity,
+        application: enquiryForm.application,
+        special_requirements: enquiryForm.specialRequirements,
+        catalog_requested: enquiryForm.sendCatalog,
+        message: `Product Enquiry for: ${product.name}\n\nQuantity: ${enquiryForm.quantity}\nApplication: ${enquiryForm.application || 'Not specified'}\nSpecial Requirements: ${enquiryForm.specialRequirements || 'None'}\nCatalog Requested: ${enquiryForm.sendCatalog ? 'Yes' : 'No'}`,
+      });
+
+      // Prepare product inquiry data for email
       const inquiryData = {
         customer_name: enquiryForm.name,
         customer_email: enquiryForm.email,

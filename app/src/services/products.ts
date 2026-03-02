@@ -710,6 +710,17 @@ export const updateEnquiryStatus = async (id: string, status: Enquiry['status'])
     await updateDoc(doc(db, 'enquiries', id), { status });
 };
 
+export const submitEnquiry = async (enquiryData: Omit<Enquiry, 'id' | 'created_at' | 'status'>): Promise<string> => {
+    const enquiry: Omit<Enquiry, 'id'> = {
+        ...enquiryData,
+        status: 'new',
+        created_at: new Date().toISOString(),
+    };
+    
+    const docRef = await addDoc(collection(db, 'enquiries'), enquiry);
+    return docRef.id;
+};
+
 // ============================================
 // TESTIMONIALS
 // ============================================
