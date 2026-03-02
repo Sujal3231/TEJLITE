@@ -14,8 +14,7 @@ import {
   Settings,
   LogOut,
   Menu,
-  X,
-  Loader2
+  X
 } from 'lucide-react';
 import { toast } from 'sonner';
 

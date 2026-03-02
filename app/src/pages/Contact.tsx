@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, MessageCircle, Send, Check, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { fetchSiteSettings, submitEnquiry, type SiteSettings } from '@/services/products';
+import { fetchSiteSettings, submitEnquiry } from '@/services/products';
+import type { SiteSettings } from '@/types';
 import { initEmailJS, sendContactEmail } from '@/config/emailjs';
 
 const enquiryTypes = [
@@ -400,7 +401,7 @@ ${formData.message}
                           <h3 className="font-heading text-sm uppercase tracking-[1px] text-[#4A4A4A] mb-1">
                             Phone
                           </h3>
-                          {settings.phone_numbers.map((phone, index) => (
+                          {settings.phone_numbers.map((phone: string, index: number) => (
                             <a 
                               key={index}
                               href={`tel:${phone.replace(/\s/g, '')}`} 

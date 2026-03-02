@@ -1,6 +1,6 @@
 import { db } from '@/config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import { ContactSubmission } from './products';
+import type { ContactSubmission } from './products';
 
 export interface AnalyticsData {
   totalProducts: number;
@@ -51,8 +51,8 @@ export const getAnalyticsData = async (): Promise<AnalyticsData> => {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const newContactsThisMonth = contacts.filter(contact => {
-      if (!contact.createdAt) return false;
-      const contactDate = contact.createdAt.toDate ? contact.createdAt.toDate() : new Date(contact.createdAt);
+      if (!contact.created_at) return false;
+      const contactDate = new Date(contact.created_at);
       return contactDate >= startOfMonth;
     }).length;
 
@@ -60,14 +60,14 @@ export const getAnalyticsData = async (): Promise<AnalyticsData> => {
     const contactsByStatus = {
       new: contacts.filter(c => c.status === 'new' || !c.status).length,
       read: contacts.filter(c => c.status === 'read').length,
-      replied: contacts.filter(c => c.status === 'replied').length,
+      replied: contacts.filter(c => c.status === 'responded').length,
     };
 
     // Recent contacts (last 5)
     const recentContacts = contacts
       .sort((a, b) => {
-        const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+        const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
+        const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
         return dateB.getTime() - dateA.getTime();
       })
       .slice(0, 5);
@@ -124,8 +124,8 @@ const getMonthlyContactTrend = (contacts: ContactSubmission[]) => {
     const monthEnd = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     
     const count = contacts.filter(contact => {
-      if (!contact.createdAt) return false;
-      const contactDate = contact.createdAt.toDate ? contact.createdAt.toDate() : new Date(contact.createdAt);
+      if (!contact.created_at) return false;
+      const contactDate = new Date(contact.created_at);
       return contactDate >= monthStart && contactDate <= monthEnd;
     }).length;
     
@@ -148,19 +148,19 @@ export const getContactStats = async () => {
     return {
       total: contacts.length,
       thisWeek: contacts.filter(contact => {
-        if (!contact.createdAt) return false;
-        const contactDate = contact.createdAt.toDate ? contact.createdAt.toDate() : new Date(contact.createdAt);
+        if (!contact.created_at) return false;
+        const contactDate = new Date(contact.created_at);
         return contactDate >= startOfWeek;
       }).length,
       thisMonth: contacts.filter(contact => {
-        if (!contact.createdAt) return false;
-        const contactDate = contact.createdAt.toDate ? contact.createdAt.toDate() : new Date(contact.createdAt);
+        if (!contact.created_at) return false;
+        const contactDate = new Date(contact.created_at);
         return contactDate >= startOfMonth;
       }).length,
       byStatus: {
         new: contacts.filter(c => c.status === 'new' || !c.status).length,
         read: contacts.filter(c => c.status === 'read').length,
-        replied: contacts.filter(c => c.status === 'replied').length,
+        replied: contacts.filter(c => c.status === 'responded').length,
       }
     };
   } catch (error) {

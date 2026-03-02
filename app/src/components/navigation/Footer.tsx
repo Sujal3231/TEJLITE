@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Linkedin, Youtube, MapPin, Phone, Mail, ArrowRight, Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { fetchSiteSettings, type SiteSettings } from '@/services/products';
+import { fetchSiteSettings } from '@/services/products';
+import type { SiteSettings } from '@/types';
 
 // Sample categories - in production, fetch from Firebase
 const categories = [
@@ -228,7 +229,7 @@ const Footer = () => {
                     <div className="flex items-start gap-3">
                       <Phone className="w-5 h-5 text-[#C9A84C] mt-0.5 flex-shrink-0" />
                       <div>
-                        {settings.phone_numbers.map((phone, index) => (
+                        {settings.phone_numbers.map((phone: string, index: number) => (
                           <a 
                             key={index}
                             href={`tel:${phone.replace(/\s/g, '')}`} 

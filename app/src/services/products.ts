@@ -55,7 +55,7 @@ const subcategoriesCollection = collection(db, 'subcategories');
 const productsCollection = collection(db, 'products');
 const productImagesCollection = collection(db, 'product_images');
 const projectsCollection = collection(db, 'projects');
-const projectImagesCollection = collection(db, 'project_images');
+// const projectImagesCollection = collection(db, 'project_images');
 const servicesCollection = collection(db, 'services');
 const catalogsCollection = collection(db, 'catalogs');
 const enquiriesCollection = collection(db, 'enquiries');
@@ -732,7 +732,7 @@ export const fetchTestimonials = async (): Promise<Testimonial[]> => {
         id: doc.id,
         ...doc.data(),
         created_at: timestampToString(doc.data().created_at)
-    } as Testimonial));
+    } as unknown as Testimonial));
 };
 
 export const fetchTestimonialById = async (id: string): Promise<Testimonial | undefined> => {
@@ -744,7 +744,7 @@ export const fetchTestimonialById = async (id: string): Promise<Testimonial | un
             id: docSnap.id,
             ...docSnap.data(),
             created_at: timestampToString(docSnap.data().created_at)
-        } as Testimonial;
+        } as unknown as Testimonial;
     }
     return undefined;
 };

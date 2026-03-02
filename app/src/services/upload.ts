@@ -1,4 +1,4 @@
-import { db } from '@/config/firebase';
+// import { db } from '@/config/firebase';
 
 export interface UploadProgress {
   progress: number;
@@ -8,6 +8,7 @@ export interface UploadProgress {
 
 // Upload image to external service (ImgBB - free tier)
 // You can also use Cloudinary, Imgur, or any other service
+/*
 const uploadToImgBB = async (file: File, onProgress?: (progress: number) => void): Promise<string> => {
   const apiKey = import.meta.env.VITE_IMGBB_API_KEY || 'demo_key'; // Add your ImgBB API key
   
@@ -34,6 +35,7 @@ const uploadToImgBB = async (file: File, onProgress?: (progress: number) => void
   
   return data.data.url;
 };
+*/
 
 // Simple URL input - just store the URL directly
 export const saveImageUrl = async (url: string): Promise<string> => {
@@ -113,7 +115,7 @@ export const compressImage = (file: File, maxWidth: number = 800, quality: numbe
 // Primary upload method - uses external service or data URL
 export const uploadImage = async (
   file: File,
-  folder: string = 'images',
+  _folder: string = 'images',
   onProgress?: (progress: number) => void
 ): Promise<string> => {
   try {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MessageCircle } from 'lucide-react';
-import { fetchSiteSettings, type SiteSettings } from '@/services/products';
+import { fetchSiteSettings } from '@/services/products';
+import type { SiteSettings } from '@/types';
 
 const WhatsAppButton = () => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);

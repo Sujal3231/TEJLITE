@@ -99,7 +99,7 @@ const ProductDetail = () => {
         window.open(`https://wa.me/?text=Check out this product: ${url}`, '_blank');
         break;
       case 'email':
-        window.open(`mailto:?subject=Check out ${productData.name}&body=I found this amazing product: ${url}`);
+        window.open(`mailto:?subject=Check out ${product?.name}&body=I found this amazing product: ${url}`);
         break;
     }
   };
