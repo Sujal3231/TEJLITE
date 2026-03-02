@@ -1,0 +1,105 @@
+rules_version = '2';
+
+// Firebase Firestore Security Rules for Tej Lite
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // ============ PUBLIC COLLECTIONS (Read: Everyone, Write: Admin Only) ============
+    
+    // Products collection
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Categories collection
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Subcategories collection
+    match /subcategories/{subcategoryId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Projects collection
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Services collection
+    match /services/{serviceId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Catalogs collection
+    match /catalogs/{catalogId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Testimonials collection
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Site settings - public read, admin write
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ============ ADMIN COLLECTION ============
+    
+    // Admins collection - special rules
+    match /admins/{adminId} {
+      // Allow reading own admin document
+      allow read: if isAuthenticated() && request.auth.uid == adminId;
+      // Allow creating admin document (for initial setup)
+      allow create: if isAuthenticated() && request.auth.uid == adminId;
+      // Only existing admins can update/delete other admins
+      allow update, delete: if isAdmin();
+    }
+    
+    // ============ CONTACT FORMS / ENQUIRIES ============
+    
+    // Contacts/Enquiries collection
+    match /contacts/{contactId} {
+      // Anyone can submit a contact form
+      allow create: if true;
+      // Only admins can read, update, or delete
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // Enquiries collection (alternative name)
+    match /enquiries/{enquiryId} {
+      // Anyone can submit an enquiry
+      allow create: if true;
+      // Only admins can read, update, or delete
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // ============ ANALYTICS / STATS ============
+    
+    // Analytics data - admin only
+    match /analytics/{docId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Tej Lite Brand Colors */
+    --gold: 45 55% 54%;
+    --gold-deep: 40 55% 41%;
+    --gold-light: 42 52% 91%;
+    --black-rich: 0 0% 5%;
+    --charcoal: 0 0% 11%;
+    --white-warm: 37 33% 96%;
+    --ivory: 40 29% 92%;
+    --slate: 0 0% 29%;
+    --success: 122 39% 34%;
+    --error: 0 66% 46%;
+
+    /* shadcn/ui Theme Variables */
+    --background: 37 33% 96%;
+    --foreground: 0 0% 5%;
+    --card: 40 29% 92%;
+    --card-foreground: 0 0% 5%;
+    --popover: 37 33% 96%;
+    --popover-foreground: 0 0% 5%;
+    --primary: 45 55% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 29% 92%;
+    --secondary-foreground: 0 0% 5%;
+    --muted: 40 20% 90%;
+    --muted-foreground: 0 0% 29%;
+    --accent: 45 55% 54%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 66% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 20% 85%;
+    --input: 40 20% 85%;
+    --ring: 45 55% 54%;
+    --radius: 0px;
+    
+    /* Sidebar */
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 37 33% 96%;
+    --sidebar-primary: 45 55% 54%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 11%;
+    --sidebar-accent-foreground: 37 33% 96%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 45 55% 54%;
+  }
+
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 37 33% 96%;
+    --card: 0 0% 11%;
+    --card-foreground: 37 33% 96%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 37 33% 96%;
+    --primary: 45 55% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 11%;
+    --secondary-foreground: 37 33% 96%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 45 55% 54%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 66% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 45 55% 54%;
+    
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 37 33% 96%;
+    --sidebar-primary: 45 55% 54%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 11%;
+    --sidebar-accent-foreground: 37 33% 96%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 45 55% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  /* Typography Classes */
+  .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .font-heading {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .font-body {
+    font-family: 'Lato', sans-serif;
+  }
+  
+  /* Eyebrow Text - Uppercase tracking */
+  .eyebrow {
+    @apply font-heading text-xs uppercase tracking-[4px] text-[#C9A84C];
+  }
+  
+  /* Gold Gradient Text */
+  .text-gold-gradient {
+    @apply bg-gradient-to-r from-[#C9A84C] to-[#A07830] bg-clip-text text-transparent;
+  }
+  
+  /* Primary CTA Button */
+  .btn-primary {
+    @apply bg-[#C9A84C] text-white font-heading text-sm uppercase tracking-[2px] px-8 py-4 
+           transition-all duration-300 hover:bg-[#A07830] hover:shadow-lg;
+  }
+  
+  /* Secondary CTA Button */
+  .btn-secondary {
+    @apply bg-transparent border border-[#C9A84C] text-[#C9A84C] font-heading text-sm uppercase tracking-[2px] px-8 py-4 
+           transition-all duration-300 hover:bg-[#C9A84C] hover:text-white;
+  }
+  
+  /* Ghost Button */
+  .btn-ghost {
+    @apply bg-transparent text-[#C9A84C] font-heading text-sm uppercase tracking-[2px] 
+           transition-all duration-300 hover:underline underline-offset-4;
+  }
+  
+  /* Card Hover Effect */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+  
+  /* Image Zoom on Hover */
+  .img-zoom {
+    @apply overflow-hidden;
+  }
+  
+  .img-zoom img {
+    @apply transition-transform duration-500 hover:scale-110;
+  }
+  
+  /* Gold Border Bottom */
+  .border-gold-bottom {
+    @apply border-b-4 border-[#C9A84C];
+  }
+  
+  /* Section Padding */
+  .section-padding {
+    @apply py-24 px-4 sm:px-6 lg:px-8 xl:px-12;
+  }
+  
+  /* Container */
+  .container-custom {
+    @apply max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Dark Section */
+  .section-dark {
+    @apply bg-[#0D0D0D] text-white;
+  }
+  
+  /* Light Section */
+  .section-light {
+    @apply bg-[#FAF7F2] text-[#0D0D0D];
+  }
+  
+  /* Ivory Card Background */
+  .card-ivory {
+    @apply bg-[#F2EDE4];
+  }
+  
+  /* Navigation Link Underline Animation */
+  .nav-link {
+    @apply relative;
+  }
+  
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-[1px] bg-[#C9A84C] transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+  
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-[#1C1C1C];
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#C9A84C] rounded;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#A07830];
+  }
+  
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+}
+
+@layer utilities {
+  /* Animation Utilities */
+  .animate-fade-up {
+    animation: fadeUp 0.7s ease-out forwards;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+  }
+  
+  .animate-slide-left {
+    animation: slideLeft 0.8s ease-out forwards;
+  }
+  
+  .animate-ken-burns {
+    animation: kenBurns 8s ease-out forwards;
+  }
+  
+  /* Stagger Animation Delays */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes kenBurns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
