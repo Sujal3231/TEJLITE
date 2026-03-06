@@ -15,6 +15,7 @@ const Navigation = () => {
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [categories, setCategories] = useState<CategoryWithSubs[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAllCategories, setShowAllCategories] = useState(false);
   const location = useLocation();
 
   // Fetch categories and subcategories from Firebase
@@ -64,6 +65,7 @@ const Navigation = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsMegaMenuOpen(false);
+    setShowAllCategories(false);
   }, [location]);
 
   const navLinks = [
@@ -163,7 +165,7 @@ const Navigation = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="hidden lg:block absolute top-full left-0 right-0 bg-[#1C1C1C] border-t-2 border-[#C9A84C] shadow-2xl"
+              className="hidden lg:block absolute top-full left-0 right-0 bg-[#1C1C1C] border-t-2 border-[#C9A84C] shadow-2xl max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-[#C9A84C]/30 scrollbar-track-transparent hover:scrollbar-thumb-[#C9A84C]/50"
               onMouseEnter={() => setIsMegaMenuOpen(true)}
               onMouseLeave={() => {
                 setIsMegaMenuOpen(false);
@@ -184,7 +186,7 @@ const Navigation = () => {
                     <div className="grid grid-cols-4 gap-8">
                       {/* Categories Grid */}
                       <div className="col-span-3 grid grid-cols-4 gap-6">
-                        {categories.map((category) => (
+                        {(showAllCategories ? categories : categories.slice(0, 12)).map((category) => (
                           <div
                             key={category.id}
                             className="space-y-3"
@@ -197,44 +199,85 @@ const Navigation = () => {
                               {category.name}
                             </Link>
                             {category.subcategories.length > 0 && (
-                              <ul className="space-y-2">
-                                {category.subcategories.map((sub) => (
-                                  <li key={sub.id}>
-                                    <Link
-                                      to={`/products?category=${category.slug}&subcategory=${sub.slug}`}
-                                      className="text-white/70 text-sm hover:text-[#C9A84C] hover:translate-x-1 transition-all duration-200 inline-block"
-                                    >
-                                      {sub.name}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
+                              <div className="max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#C9A84C]/30 scrollbar-track-transparent hover:scrollbar-thumb-[#C9A84C]/50 pr-2">
+                                <ul className="space-y-2">
+                                  {category.subcategories.slice(0, 10).map((sub) => (
+                                    <li key={sub.id}>
+                                      <Link
+                                        to={`/products?category=${category.slug}&subcategory=${sub.slug}`}
+                                        className="text-white/70 text-sm hover:text-[#C9A84C] hover:translate-x-1 transition-all duration-200 inline-block"
+                                      >
+                                        {sub.name}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                  {category.subcategories.length > 10 && (
+                                    <li>
+                                      <Link
+                                        to={`/products?category=${category.slug}`}
+                                        className="text-[#C9A84C] text-sm font-medium hover:text-white transition-colors inline-flex items-center gap-1 mt-2"
+                                      >
+                                        View More ({category.subcategories.length - 10} more)
+                                        <ChevronDown className="w-3 h-3 rotate-[-90deg]" />
+                                      </Link>
+                                    </li>
+                                  )}
+                                </ul>
+                              </div>
                             )}
                           </div>
                         ))}
+                        
+                        {/* View More Categories Button */}
+                        {!showAllCategories && categories.length > 12 && (
+                          <div className="col-span-4 flex justify-center mt-4">
+                            <button
+                              onClick={() => setShowAllCategories(true)}
+                              className="px-6 py-3 bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] font-heading text-xs uppercase tracking-[2px] hover:bg-[#C9A84C] hover:text-white transition-all duration-300 inline-flex items-center gap-2"
+                            >
+                              View More Categories ({categories.length - 12} more)
+                              <ChevronDown className="w-4 h-4" />
+                            </button>
+                          </div>
+                        )}
+                        
+                        {/* Show Less Button */}
+                        {showAllCategories && categories.length > 12 && (
+                          <div className="col-span-4 flex justify-center mt-4">
+                            <button
+                              onClick={() => setShowAllCategories(false)}
+                              className="px-6 py-3 bg-[#C9A84C]/10 border border-[#C9A84C] text-[#C9A84C] font-heading text-xs uppercase tracking-[2px] hover:bg-[#C9A84C] hover:text-white transition-all duration-300 inline-flex items-center gap-2"
+                            >
+                              Show Less
+                              <ChevronDown className="w-4 h-4 rotate-180" />
+                            </button>
+                          </div>
+                        )}
                       </div>
 
-                      {/* Featured Image */}
+                      {/* Featured Image - Sticky */}
                       <div className="col-span-1">
-                        <div className="relative h-full min-h-[300px] rounded overflow-hidden bg-[#0D0D0D]">
-                          {hoveredCategory && categories.find(c => c.id === hoveredCategory)?.cover_image_url ? (
-                            <img
-                              src={categories.find(c => c.id === hoveredCategory)?.cover_image_url}
-                              alt={categories.find(c => c.id === hoveredCategory)?.name}
-                              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
-                            />
-                          ) : (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <span className="text-[#C9A84C] text-6xl">✦</span>
+                        <div className="sticky top-4">
+                          <div className="relative h-[350px] rounded overflow-hidden bg-[#0D0D0D]">
+                            {hoveredCategory && categories.find(c => c.id === hoveredCategory)?.cover_image_url ? (
+                              <img
+                                src={categories.find(c => c.id === hoveredCategory)?.cover_image_url}
+                                alt={categories.find(c => c.id === hoveredCategory)?.name}
+                                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <span className="text-[#C9A84C] text-6xl">✦</span>
+                              </div>
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                            <div className="absolute bottom-4 left-4 right-4">
+                              <p className="text-white font-display text-lg">
+                                {hoveredCategory 
+                                  ? categories.find(c => c.id === hoveredCategory)?.name 
+                                  : 'Explore Our Collections'}
+                              </p>
                             </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                          <div className="absolute bottom-4 left-4 right-4">
-                            <p className="text-white font-display text-lg">
-                              {hoveredCategory 
-                                ? categories.find(c => c.id === hoveredCategory)?.name 
-                                : 'Explore Our Collections'}
-                            </p>
                           </div>
                         </div>
                       </div>

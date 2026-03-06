@@ -222,6 +222,23 @@
     @apply bg-[#A07830];
   }
   
+  /* Thin scrollbar for mega menu */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .scrollbar-thumb-\[#C9A84C\]\/30::-webkit-scrollbar-thumb {
+    @apply bg-[#C9A84C]/30 rounded;
+  }
+  
+  .scrollbar-thumb-\[#C9A84C\]\/50::-webkit-scrollbar-thumb {
+    @apply bg-[#C9A84C]/50 rounded;
+  }
+  
+  .scrollbar-track-transparent::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
   /* Hide scrollbar but keep functionality */
   .scrollbar-hide {
     -ms-overflow-style: none;  /* IE and Edge */
