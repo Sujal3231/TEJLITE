@@ -109,11 +109,10 @@ const Home = () => {
         .slice(0, 4);
       setServices(featuredServices);
 
-      // Filter active categories sorted by sort_order (limit to 7)
+      // Filter active categories sorted by sort_order (show all)
       const activeCategories = categoriesData
         .filter(c => c.status === 'active')
-        .sort((a, b) => a.sort_order - b.sort_order)
-        .slice(0, 7);
+        .sort((a, b) => a.sort_order - b.sort_order);
       setCategories(activeCategories);
 
       // Filter active testimonials
@@ -288,7 +287,7 @@ const Home = () => {
       {/* Featured Categories Strip */}
       <section className="py-16 bg-[#FAF7F2]">
         <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {categories.length > 0 ? (
               categories.map((category, index) => (
                 <motion.div
