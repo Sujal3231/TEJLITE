@@ -131,8 +131,13 @@ const Services = () => {
                     viewport={{ once: true }}
                     className="group bg-white p-8 border border-[#E5E0D5] hover:border-[#C9A84C] transition-all duration-300 hover:-translate-y-1"
                   >
-                    <div className="w-16 h-16 mb-6 flex items-center justify-center bg-[#C9A84C]/10 text-[#C9A84C] group-hover:bg-[#C9A84C] group-hover:text-white transition-colors">
-                      <IconComponent className="w-8 h-8" />
+                    {/* Icon: render emoji if present, else Lucide icon */}
+                    <div className="w-16 h-16 mb-6 flex items-center justify-center bg-[#C9A84C] text-white transition-colors">
+                      {service.icon_url && !/^[a-z]+$/.test(service.icon_url.trim()) ? (
+                        <span className="text-2xl leading-none" style={{ filter: 'brightness(0) invert(1)' }}>{service.icon_url.trim()}</span>
+                      ) : (
+                        <IconComponent className="w-8 h-8" />
+                      )}
                     </div>
                     
                     <h3 className="font-display text-xl text-[#0D0D0D] mb-3">
@@ -141,9 +146,21 @@ const Services = () => {
                     
                     <div className="w-12 h-[2px] bg-[#C9A84C] mb-4" />
                     
-                    <p className="text-[#4A4A4A] text-sm leading-relaxed mb-6">
-                      {service.short_description}
-                    </p>
+                    {/* Render description as bullet list if multi-line, else plain text */}
+                    {service.short_description?.includes('\n') ? (
+                      <ul className="space-y-1.5 mb-6">
+                        {service.short_description.split('\n').filter(line => line.trim()).map((line, i) => (
+                          <li key={i} className="flex items-start gap-2 text-[#4A4A4A] text-sm">
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#C9A84C] flex-shrink-0" />
+                            {line.trim()}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-[#4A4A4A] text-sm leading-relaxed mb-6">
+                        {service.short_description}
+                      </p>
+                    )}
 
                     <Link
                       to={`/contact?service=${service.slug}`}

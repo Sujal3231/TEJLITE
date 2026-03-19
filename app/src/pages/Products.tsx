@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Filter, Grid3X3, List, ChevronDown, X, Search, ArrowRight, Loader2 } from 'lucide-react';
+import { Grid3X3, List, ChevronDown, X, Search, ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { 
   fetchProducts, 
@@ -18,7 +18,7 @@ const Products = () => {
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [gridCols, setGridCols] = useState<2 | 4>(4);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [_isFilterOpen, _setIsFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState('featured');
   const [searchQuery, setSearchQuery] = useState('');
   
@@ -265,18 +265,7 @@ const Products = () => {
                   className="pl-10 pr-4 py-2 bg-white border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C] w-64"
                 />
               </div>
-              <button
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white border border-[#E5E0D5] text-[#4A4A4A]"
-              >
-                <Filter className="w-4 h-4" />
-                Filter
-                {activeFilterCount > 0 && (
-                  <span className="bg-[#C9A84C] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                    {activeFilterCount}
-                  </span>
-                )}
-              </button>
+              
             </div>
 
             {/* Sort & View */}

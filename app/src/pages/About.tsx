@@ -4,33 +4,30 @@ import { Link } from 'react-router-dom';
 import { Award, Users, Sparkles, Shield, Check } from 'lucide-react';
 
 const milestones = [
-  { year: '1977', title: 'Founded', description: 'Tej Lite established in Mumbai with a vision to create exceptional lighting.' },
-  { year: '1990', title: 'First Export', description: 'Expanded beyond India with our first international project in Dubai.' },
-  { year: '2000', title: 'Expanded Range', description: 'Launched comprehensive product line covering all lighting categories.' },
-  { year: '2010', title: 'Hotel Specialization', description: 'Became preferred lighting partner for luxury hotel chains.' },
-  { year: '2020', title: 'Pan-India Presence', description: 'Established showrooms and service centers across major Indian cities.' },
-  { year: '2025', title: 'Digital Transformation', description: 'Launched new digital platform for enhanced customer experience.' },
+  { year: '1975', title: 'Established', description: 'Founded as Tej Kiran, a family-owned business, part of Gala\'s Family Group, which later evolved as Tej Lite.', image: '/src/images/1975.png' },
+  { year: '1998', title: 'Showroom Launch', description: 'IIID Past President Ar. Jayant Tipnis inaugurated our Lighting Showroom in Mumbai.', image: '/src/images/1998.png' },
+  { year: '2001', title: 'First Artemide', description: 'First to bring Artemide to India, marking a defining moment in premium lighting.', image: '/src/images/2001.png' },
+  { year: '2002', title: 'International Brands & Lighting Idea Book', description: 'First to introduce international brands: Atelier Sedap (FR), Regent (CH), Vistosi (IT), Unilamp (TH), Atomis (NL), Cristallux (DE), Poesia (IT), Eglo (AT), Murano Glass Collection (IT), Belfiore (IT) & Swarovski (AT). Also introduced the Lighting Idea Book, a 24-chapter guide on lighting, distributed 5,000+ copies to architects, designers, and corporate institutions.', image: '/src/images/2002.png' },
+  { year: '2003', title: 'Ratan Tata Visit', description: 'Honoured by a visit from Industrialist Shri Ratan Tata at our Tejlite Showroom.', image: '/src/images/2003.png' },
+  { year: '2024', title: 'Growing Team & Endo Centre', description: 'A team of 23 dedicated professionals + partners. Launched Endo Experience Centre in Mumbai with President Mr. Kunihiko Endo.', image: '/src/images/2024.png' },
 ];
 
 const values = [
-  { icon: Sparkles, title: 'Craftsmanship', description: 'Every piece is crafted with meticulous attention to detail and quality.' },
-  { icon: Shield, title: 'Innovation', description: 'Constantly pushing boundaries in lighting design and technology.' },
-  { icon: Award, title: 'Quality', description: 'Only the finest materials and rigorous quality control standards.' },
-  { icon: Users, title: 'Trust', description: 'Building lasting relationships through integrity and excellence.' },
+  { icon: Sparkles, title: 'Bespoke Craftsmanship', description: 'Every custom piece is engineered once — it must be right the first time. No brief is too complex if the intention is honest.' },
+  { icon: Shield, title: 'Complete In-House Capability', description: 'From design and fabrication to installation and after-care — one partner, one fluid journey, one point of accountability.' },
+  { icon: Award, title: 'Value Engineering', description: 'We adapt specifications to suit any budget without compromising design intent, making us the go-to partner when projects need re-engineering.' },
+  { icon: Users, title: 'Strong Relationships', description: 'Five decades of meaningful partnerships with India\'s most prestigious architects, developers, and hospitality brands.' },
 ];
 
-const team = [
-  { name: 'Rajesh Tejpal', role: 'Founder & CEO', bio: 'Visionary leader with 40+ years in lighting industry.', image: '/images/team/ceo.jpg' },
-  { name: 'Priya Sharma', role: 'Creative Director', bio: 'Award-winning designer with expertise in luxury interiors.', image: '/images/team/creative.jpg' },
-  { name: 'Amit Kumar', role: 'Head of Operations', bio: 'Ensures seamless execution of every project.', image: '/images/team/operations.jpg' },
-  { name: 'Sneha Patel', role: 'Client Relations', bio: 'Dedicated to delivering exceptional customer experience.', image: '/images/team/client.jpg' },
+const _team = [
+  { name: 'Nemji Gala', role: 'Founder', bio: 'Visionary leader with 50+ years in the lighting industry. Built Tejlite from a family business into India\'s trusted lighting expert.', image: '/src/images/Nemji Sir.png' },
 ];
 
 const stats = [
-  { value: '47+', label: 'Years of Excellence' },
-  { value: '1000+', label: 'Projects Completed' },
-  { value: '500+', label: 'Products' },
-  { value: '50+', label: 'Countries Served' },
+  { value: '50+', label: 'Years of Excellence' },
+  { value: '37,650+', label: 'Bespoke Products Delivered' },
+  { value: '104+', label: 'Years Collective Team Experience' },
+  { value: '345 sqm', label: 'Experience Showroom Mumbai' },
 ];
 
 // Animated Counter Component
@@ -97,98 +94,195 @@ const About = () => {
       </section>
 
       {/* Story Section */}
-      <section className="section-padding">
+      <section className="section-padding bg-[#F8F6F1]">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Quote */}
+          <div className="grid lg:grid-cols-5 gap-0 min-h-[600px]">
+            {/* Founder Image Side */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="relative"
+              className="lg:col-span-2 relative bg-[#E8E4DB]"
             >
-              <span className="absolute -top-8 -left-4 text-[150px] leading-none text-[#C9A84C]/10 font-display">
-                "
-              </span>
-              <blockquote className="relative z-10">
-                <p className="font-display text-2xl lg:text-3xl text-[#0D0D0D] italic leading-relaxed mb-6">
-                  Light is not just illumination. It is emotion, atmosphere, and the soul of a space.
-                </p>
-                <footer className="text-[#C9A84C] font-heading text-sm uppercase tracking-[2px]">
-                  — Rajesh Tejpal, Founder
-                </footer>
-              </blockquote>
+              <div className="relative h-full">
+                {/* Founder Image */}
+                <div className="h-full overflow-hidden">
+                  <img
+                    src="/src/images/Nemji Sir.png"
+                    alt="Nemji Gala - Founder"
+                    className="w-full h-full object-cover object-center"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=Nemji+Gala&background=C9A84C&color=fff&size=600`;
+                    }}
+                  />
+                </div>
+                
+                {/* Quote Overlay */}
+                <div className="absolute bottom-8 left-8 right-8">
+                  <div className="bg-white/95 backdrop-blur-sm p-6 border border-[#C9A84C]/20">
+                    <p className="font-display text-lg text-[#0D0D0D] italic leading-relaxed mb-3">
+                      No brief is too complex if the intention is honest.
+                    </p>
+                    <footer className="text-[#C9A84C] font-heading text-xs uppercase tracking-[2px]">
+                      — Nemji Gala, Founder
+                    </footer>
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
-            {/* Content */}
+            {/* Content Side */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              className="lg:col-span-3 flex items-center"
             >
-              <p className="text-[#4A4A4A] leading-relaxed mb-6">
-                Tej Lite was founded in 1977 with a singular vision: to create lighting fixtures 
-                that transcend mere functionality and become works of art. What began as a small 
-                workshop in Mumbai has grown into one of India\'s most respected lighting brands, 
-                known for our commitment to craftsmanship and innovation.
-              </p>
-              <p className="text-[#4A4A4A] leading-relaxed mb-6">
-                Over four decades, we have had the privilege of illuminating some of the most 
-                prestigious spaces in India and beyond. From grand hotel lobbies to intimate 
-                residences, from commercial landmarks to heritage monuments, our lighting 
-                solutions have left their mark on countless projects.
-              </p>
-              <p className="text-[#4A4A4A] leading-relaxed">
-                Today, Tej Lite continues to push the boundaries of lighting design, combining 
-                traditional craftsmanship with modern technology to create fixtures that are 
-                both timeless and contemporary.
-              </p>
+              <div className="p-8 lg:p-12 lg:pl-16">
+                <div className="mb-8">
+                  <p className="eyebrow mb-4">Our Story</p>
+                  <h2 className="font-display text-3xl lg:text-4xl text-[#0D0D0D] mb-8 leading-tight">
+                    Five Decades of Illuminating Excellence
+                  </h2>
+                </div>
+                
+                <div className="space-y-6 text-[#4A4A4A] leading-relaxed">
+                  <p>
+                    Established in 1975 as Tej Kiran, a part of Gala's Family Group, Tejlite brings together more than five decades of hands-on experience in working with light, evolving technologies, manufacturing insight and project coordination. In 1996, this growing commitment to lighting was formally named Tej Lite — marking our dedicated journey into bespoke lighting and one of the first players to bring premium technical and decorative luminaires into the Indian market.
+                  </p>
+                  <p>
+                    Based in Mumbai, Tejlite has contributed to some of India's most recognised landmark projects. We are comfortable taking on complex briefs where standard solutions fall short and design intent must be preserved without compromise. Every project is approached as its own story, never as a standard solution.
+                  </p>
+                  <p>
+                    At Tejlite, we handle every aspect of lighting supply and installation under one roof — from planning and coordination to delivery and final handover. Our approach brings together thoughtful design integration, in-house development of custom lighting pieces, specialised installation and complete project coordination.
+                  </p>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
-
       {/* Timeline */}
-      <section className="section-padding bg-[#F2EDE4]">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <p className="eyebrow mb-4">Our Journey</p>
-            <h2 className="font-display text-4xl text-[#0D0D0D]">
-              Milestones
-            </h2>
+      <section className="section-padding mb-10 bg-white">
+  <div className="container-custom">
+    <div className="text-center mb-6">
+      <p className="eyebrow mb-4">Our Journey</p>
+      <h2 className="font-display text-4xl text-[#0D0D0D]">Milestones</h2>
+    </div>
+
+    <div className="relative max-w-7xl mx-auto">
+  {/* Timeline Line — fixed pixel, matches minHeight of top half + dot offset */}
+  <div
+    className="absolute left-0 w-full h-px bg-[#C9A84C]/30 hidden lg:block"
+    style={{ top: '273px' }}
+  ></div>
+
+  <div className="hidden lg:grid lg:grid-cols-6 gap-2 relative">
+    {milestones.map((milestone, index) => {
+      const isAbove = index % 2 === 0;
+
+      return (
+        <motion.div
+          key={milestone.year}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1 }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center text-center group"
+        >
+          {/* TOP HALF — fixed 260px */}
+          <div
+            className="flex flex-col items-center justify-end w-full"
+            style={{ height: '260px' }}  
+          >
+            {isAbove && (
+              <>
+                <div className="w-28 h-28 rounded-lg overflow-hidden border border-[#E5E0D5] shadow-sm group-hover:border-[#C9A84C] transition-colors mb-3 flex-shrink-0">
+                  <img
+                    alt={`${milestone.year} milestone`}
+                    className="w-full h-full object-cover"
+                    src={milestone.image}
+                  />
+                </div>
+                <div className="text-[#C9A84C] font-bold font-display text-base mb-1">{milestone.year}</div>
+                <h4 className="font-bold text-[11px] uppercase tracking-wider mb-2 text-[#0D0D0D] leading-tight">{milestone.title}</h4>
+                <p className="text-[11px] text-[#4A4A4A] leading-relaxed px-1">{milestone.description}</p>
+              </>
+            )}
           </div>
 
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-[2px] bg-[#C9A84C]/30" />
+          {/* DOT — always sits at exactly 260px from top */}
+          <div className="w-3 h-3 rounded-full bg-[#C9A84C] ring-4 ring-white z-10 flex-shrink-0 my-2"></div>
 
-            <div className="grid lg:grid-cols-6 gap-8">
-              {milestones.map((milestone, index) => (
-                <motion.div
-                  key={milestone.year}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="relative text-center"
-                >
-                  <div className="lg:hidden mb-4">
-                    <span className="font-display text-4xl text-[#C9A84C]">{milestone.year}</span>
-                  </div>
-                  <div className="hidden lg:block mb-8">
-                    <div className="w-4 h-4 mx-auto bg-[#C9A84C] rounded-full relative z-10" />
-                    <span className="font-display text-2xl text-[#C9A84C] mt-4 block">{milestone.year}</span>
-                  </div>
-                  <h3 className="font-display text-lg text-[#0D0D0D] mb-2">{milestone.title}</h3>
-                  <p className="text-[#4A4A4A] text-sm">{milestone.description}</p>
-                </motion.div>
-              ))}
-            </div>
+          {/* BOTTOM HALF — fixed 260px */}
+          <div
+            className="flex flex-col items-center w-full"
+            style={{ height: '260px' }}  
+          >
+            {!isAbove && (
+              <>
+                <div className="text-[#C9A84C] font-bold font-display text-base mb-1 mt-2">{milestone.year}</div>
+                <h4 className="font-bold text-[11px] uppercase tracking-wider mb-2 text-[#0D0D0D] leading-tight">{milestone.title}</h4>
+                <p className="text-[11px] text-[#4A4A4A] leading-relaxed mb-4 px-1">{milestone.description}</p>
+                <div className="w-28 h-28 rounded-lg overflow-hidden border border-[#E5E0D5] shadow-sm group-hover:border-[#C9A84C] transition-colors flex-shrink-0">
+                  <img
+                    alt={`${milestone.year} milestone`}
+                    className="w-full h-full object-cover"
+                    src={milestone.image}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        </motion.div>
+      );
+    })}
+  </div>
+
+  {/* MOBILE — unchanged */}
+  <div className="lg:hidden flex flex-col">
+    {milestones.map((milestone, index) => (
+      <motion.div
+        key={milestone.year}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.08 }}
+        viewport={{ once: true }}
+        className="flex flex-col items-center"
+      >
+        <div className="flex gap-4 items-start text-left w-full px-2 py-4 border border-[#E5E0D5] rounded-xl">
+          <div className="w-16 h-16 rounded-lg overflow-hidden border border-[#E5E0D5] flex-shrink-0">
+            <img
+              alt={`${milestone.year} milestone`}
+              className="w-full h-full object-cover"
+              src={milestone.image}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(milestone.title.substring(0, 2))}&background=C9A84C&color=fff&size=200`;
+              }}
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="text-[#C9A84C] font-bold font-display text-sm mb-0.5">{milestone.year}</div>
+            <h4 className="font-bold text-[11px] uppercase tracking-wider mb-1 text-[#0D0D0D] leading-tight">{milestone.title}</h4>
+            <p className="text-[11px] text-[#4A4A4A] leading-relaxed">{milestone.description}</p>
           </div>
         </div>
-      </section>
-
-      {/* Stats Section */}
+        {index < milestones.length - 1 && (
+          <div className="flex flex-col items-center py-1">
+            <div className="w-0.5 h-4 bg-[#C9A84C]/40"></div>
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1L6 6L11 1" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/>
+            </svg>
+          </div>
+        )}
+      </motion.div>
+    ))}
+  </div>
+</div>
+  </div>
+</section>  
+ {/* Stats Section */}
       <section className="section-padding bg-[#0D0D0D]">
         <div className="container-custom">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -272,7 +366,7 @@ const About = () => {
       </section>
 
       {/* Team Section */}
-      <section className="section-padding bg-[#F2EDE4]">
+      {/* <section className="section-padding bg-[#F2EDE4]">
         <div className="container-custom">
           <div className="text-center mb-12">
             <p className="eyebrow mb-4">Our People</p>
@@ -281,7 +375,7 @@ const About = () => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-1 lg:grid-cols-1 gap-8 max-w-md mx-auto">
             {team.map((member, index) => (
               <motion.div
                 key={member.name}
@@ -310,10 +404,99 @@ const About = () => {
             ))}
           </div>
         </div>
+      </section> */}
+
+      {/* Our Clients Section */}
+      <section className="section-padding bg-[#FAF7F2]">
+        <div className="container-custom">
+          <div className="text-center mb-8">
+            <p className="eyebrow mb-4">Trusted By</p>
+            <h2 className="font-display text-4xl text-[#0D0D0D] mb-4">Our Clients</h2>
+            <p className="text-[#4A4A4A] max-w-2xl mx-auto">
+              Trusted by leading brands, hotels, and organizations across various industries
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-4">
+            {[
+              { logo: '/src/images/clients/palladium.png', name: 'Palladium' },
+              { logo: '/src/images/clients/inorbit.png', name: 'Inorbit' },
+              { logo: '/src/images/clients/phoenix-mills.png', name: 'Phoenix Mills' },
+              { logo: '/src/images/clients/goldmine.png', name: 'Goldmine' },
+              { logo: '/src/images/clients/boss-home-appliances.png', name: 'Boss' },
+              { logo: '/src/images/clients/shapoorji-pallonji.png', name: 'Shapoorji Pallonji' },
+              { logo: '/src/images/clients/kanakia.png', name: 'Kanakia' },
+              { logo: '/src/images/clients/plus-light-tech.png', name: 'Plus Light Tech' },
+              { logo: '/src/images/clients/ramoji-film-city.png', name: 'Ramoji Film City' },
+              { logo: '/src/images/clients/the-club-mumbai.png', name: 'The Club Mumbai' },
+              { logo: '/src/images/clients/st-regis.png', name: 'St Regis' },
+              { logo: '/src/images/clients/taj-hotels.png', name: 'Taj Hotels' },
+              { logo: '/src/images/clients/sunshine-tower-hotel.png', name: 'Sunshine Hotel' },
+              { logo: '/src/images/clients/dolphin-hotels.png', name: 'Dolphin Hotels' },
+              { logo: '/src/images/clients/hotel-roma-kristo.png', name: 'Hotel Roma Kristo' },
+              { logo: '/src/images/clients/hotel-maple-ivy.png', name: 'Maple Ivy' },
+              { logo: '/src/images/clients/saregamapa.png', name: 'Saregamapa' },
+              { logo: '/src/images/clients/jw-marriott.png', name: 'JW Marriott' },
+              { logo: '/src/images/clients/bafna-motors.png', name: 'Bafna Motors' },
+              { logo: '/src/images/clients/star-plus.png', name: 'Star Plus' },
+              { logo: '/src/images/clients/aamby-valley.png', name: 'Aamby Valley' },
+              { logo: '/src/images/clients/pnp.png', name: 'PNP' },
+              { logo: '/src/images/clients/reliance-industries.png', name: 'Reliance Industries' },
+              { logo: '/src/images/clients/rdcc-bank.png', name: 'RDCC Bank' },
+              { logo: '/src/images/clients/godrej-interio.png', name: 'Godrej Interio' },
+              { logo: '/src/images/clients/vivanta.png', name: 'Vivanta' },
+              { logo: '/src/images/clients/courtyard-marriott.png', name: 'Courtyard' },
+              { logo: '/src/images/clients/avighna.png', name: 'Avighna' },
+              { logo: '/src/images/clients/charbhuja-jewellers.png', name: 'Charbhuja Jewellers' },
+              { logo: '/src/images/clients/red-brick.png', name: 'Red Brick' },
+              { logo: '/src/images/clients/somaya-kalappa.png', name: 'Somaya & Kalappa' },
+              { logo: '/src/images/clients/syndrome.png', name: 'Syndrome' },
+              { logo: '/src/images/clients/tata-consultancy.png', name: 'TATA' },
+              { logo: '/src/images/clients/project-eve.png', name: 'Project Eve' },
+              { logo: '/src/images/clients/ever-shine-banquets.png', name: 'Ever Shine' },
+              { logo: '/src/images/clients/lokmat.png', name: 'Lokmat' },
+              { logo: '/src/images/clients/sankpal.png', name: 'Sankpal' },
+              // { logo: '/src/images/clients/nitido.png', name: 'Nitido' },
+              { logo: '/src/images/clients/jio.png', name: 'Jio' },
+              { logo: '/src/images/clients/reliance-retail.png', name: 'Reliance Retail' },
+              { logo: '/src/images/clients/krishival.png', name: 'Krishival' },
+              { logo: '/src/images/clients/salar-jung-museum.png', name: 'Salar Jung Museum' },
+              { logo: '/src/images/clients/nss-hill-spring.png', name: 'NSS Hill Spring' },
+              { logo: '/src/images/clients/siddhivinayak.png', name: 'Siddhivinayak' },
+              { logo: '/src/images/clients/nashik-city-centre.png', name: 'Nashik City Centre' },
+              { logo: '/src/images/clients/hotel-aram.png', name: 'Hotel Aram' },
+            ].map((client, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.02 }}
+                viewport={{ once: true }}
+                className="group"
+              >
+                <div className="bg-white rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-200 border border-[#E5E0D5] hover:border-[#C9A84C]/30">
+                  <div className="flex items-center justify-center h-12">
+                    <img
+                      src={client.logo}
+                      alt={client.name}
+                      className="max-h-full max-w-full object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-200"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* <div className="text-center mt-12">
+            <p className="text-[#4A4A4A] text-sm">
+              And many more satisfied clients across hospitality, retail, residential, and commercial sectors
+            </p>
+          </div> */}
+        </div>
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding">
+      <section className="mb-10">
         <div className="container-custom text-center">
           <h2 className="font-display text-3xl lg:text-4xl text-[#0D0D0D] mb-6">
             Ready to Illuminate Your Space?
