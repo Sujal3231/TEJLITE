@@ -113,7 +113,12 @@ const Navigation = () => {
                 >
                   <Link
                     to={link.href}
-                    className="nav-link font-heading text-sm uppercase tracking-[2px] text-white/90 hover:text-[#C9A84C] transition-colors duration-300 py-2 flex items-center gap-1"
+                    className={`nav-link font-heading text-sm uppercase tracking-[2px] transition-colors duration-300 py-2 flex items-center gap-1 ${
+                      location.pathname === link.href || 
+                      (link.href === '/products' && location.pathname.startsWith('/products'))
+                        ? 'text-[#C9A84C] border-b-2 border-[#C9A84C]' 
+                        : 'text-white/90 hover:text-[#C9A84C]'
+                    }`}
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     {link.label}
@@ -328,7 +333,12 @@ const Navigation = () => {
                         <div className="space-y-3">
                           <Link
                             to={link.href}
-                            className="block font-heading text-sm uppercase tracking-[2px] text-[#C9A84C]"
+                            className={`block font-heading text-sm uppercase tracking-[2px] transition-colors ${
+                              location.pathname === link.href || 
+                              (link.href === '/products' && location.pathname.startsWith('/products'))
+                                ? 'text-[#C9A84C] border-l-2 border-[#C9A84C] pl-2' 
+                                : 'text-[#C9A84C]'
+                            }`}
                           >
                             {link.label}
                           </Link>
@@ -351,7 +361,12 @@ const Navigation = () => {
                       ) : (
                         <Link
                           to={link.href}
-                          className="block font-heading text-sm uppercase tracking-[2px] text-white/90 hover:text-[#C9A84C] transition-colors py-2"
+                          className={`block font-heading text-sm uppercase tracking-[2px] transition-colors py-2 ${
+                            location.pathname === link.href || 
+                            (link.href === '/products' && location.pathname.startsWith('/products'))
+                              ? 'text-[#C9A84C] border-l-2 border-[#C9A84C] pl-2' 
+                              : 'text-white/90 hover:text-[#C9A84C]'
+                          }`}
                         >
                           {link.label}
                         </Link>

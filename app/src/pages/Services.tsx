@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Hammer, Lightbulb, Wrench, Palette, Truck, RefreshCw, Globe, Loader2 } from 'lucide-react';
+import { RiEqualizerLine, RiMedalLine, RiHandHeartLine, RiCoinLine } from 'react-icons/ri';
 import { fetchServices, type Service } from '@/services/products';
 
 // Icon mapping for services
@@ -189,60 +190,22 @@ const Services = () => {
               {
                 title: "Customisable Range",
                 description: "Standard or custom: we have the flexibility to deliver specifications designed around your exact project parameters.",
-                icon: (
-                  <svg viewBox="0 0 48 48" className="w-12 h-12 stroke-[#C9A84C] fill-none stroke-2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="12" y1="8" x2="12" y2="40"/>
-                    <line x1="24" y1="8" x2="24" y2="40"/>
-                    <line x1="36" y1="8" x2="36" y2="40"/>
-                    <rect x="8" y="14" width="8" height="6" rx="3"/>
-                    <rect x="20" y="24" width="8" height="6" rx="3"/>
-                    <rect x="32" y="18" width="8" height="6" rx="3"/>
-                  </svg>
-                )
+                icon: <RiEqualizerLine className="w-8 h-8 text-[#C9A84C]" />
               },
               {
                 title: "50+ Years in the Industry",
                 description: "Throughout this time, decades of knowledge and experience has accumulated through the numerous projects we have been involved in.",
-                icon: (
-                  <svg viewBox="0 0 48 48" className="w-12 h-12 stroke-[#C9A84C] fill-none stroke-2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="24" cy="14" r="5"/>
-                    <path d="M14 36c0-5.5 4.5-10 10-10s10 4.5 10 10"/>
-                    <circle cx="10" cy="18" r="4"/>
-                    <path d="M2 36c0-4.4 3.6-8 8-8"/>
-                    <circle cx="38" cy="18" r="4"/>
-                    <path d="M46 36c0-4.4-3.6-8-8-8"/>
-                    <path d="M18 9l1 2.5H22l-2 1.5.8 2.5L18 14l-2.8 1.5.8-2.5-2-1.5h3z" strokeWidth="1.5"/>
-                    <path d="M24 6l.6 1.8H27l-1.5 1.1.6 1.8L24 9.7l-2.1 1 .6-1.8L21 7.8h2.4z" strokeWidth="1.5"/>
-                    <path d="M30 9l1 2.5H34l-2 1.5.8 2.5L30 14l-2.8 1.5.8-2.5-2-1.5h3z" strokeWidth="1.5"/>
-                  </svg>
-                )
+                icon: <RiMedalLine className="w-8 h-8 text-[#C9A84C]" />
               },
               {
                 title: "Strong Relationships",
                 description: "We believe in building meaningful, sustainable partnerships and consider client satisfaction our most valued achievement.",
-                icon: (
-                  <svg viewBox="0 0 48 48" className="w-12 h-12 stroke-[#C9A84C] fill-none stroke-2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M6 28l8-8 5 3 7-7 5 5 8-8"/>
-                    <path d="M6 28c3 3 7 4 11 2l3-2 4 4c2 2 5 2 7 0l8-8"/>
-                    <path d="M34 14c4-4 8 0 4 4l-8 8-4-4z"/>
-                    <path d="M14 18l-8 8c-2 2-2 5 0 7l4 4"/>
-                    <path d="M40 8 A18 18 0 0 1 42 24" strokeDasharray="3 3"/>
-                    <path d="M8 40 A18 18 0 0 1 6 24" strokeDasharray="3 3"/>
-                  </svg>
-                )
+                icon: <RiHandHeartLine className="w-8 h-8 text-[#C9A84C]" />
               },
               {
                 title: "Value Engineering",
                 description: "We optimize specifications to reduce costs and keep your project within budget—without compromising quality or performance.",
-                icon: (
-                  <svg viewBox="0 0 48 48" className="w-12 h-12 stroke-[#C9A84C] fill-none stroke-2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="22" cy="24" r="6"/>
-                    <path d="M22 10v4M22 38v-4M10 22h4M38 22h-4M13.8 13.8l2.8 2.8M33.4 33.4l-2.8-2.8M13.8 30.2l2.8-2.8M33.4 12.6l-2.8 2.8"/>
-                    <circle cx="34" cy="34" r="8" strokeWidth="2"/>
-                    <text x="34" y="38" textAnchor="middle" fontSize="12" stroke="none" fill="#C9A84C" fontFamily="DM Sans, sans-serif" fontWeight="700">$</text>
-                    <path d="M40 20l3-4-3-4M43 16h-6"/>
-                  </svg>
-                )
+                icon: <RiCoinLine className="w-8 h-8 text-[#C9A84C]" />
               }
             ].map((item, index) => (
               <motion.div
@@ -259,7 +222,7 @@ const Services = () => {
                 </div>
                 
                 {/* Card */}
-                <div className="bg-white rounded-xl pt-8 pb-6 px-6 w-full h-70 flex flex-col justify-between transition-all duration-300 group-hover:shadow-lg border border-[#E5E0D5] group-hover:border-[#C9A84C]">
+                <div className="bg-white rounded-xl pt-8 pb-6 px-6 w-full h-48 flex flex-col justify-between transition-all duration-300 group-hover:shadow-lg border border-[#E5E0D5] group-hover:border-[#C9A84C]">
                   <div>
                     <h3 className="font-heading text-sm font-bold uppercase tracking-[0.05em] text-[#0D0D0D] leading-tight mb-3 mt-1">
                       {item.title}
@@ -338,14 +301,16 @@ const Services = () => {
                   transition={{ delay: index * 0.05 }}
                   viewport={{ once: true }}
                   className={`
-                    flex-1 relative p-6 md:p-8 flex flex-col justify-end min-h-[240px] cursor-default
+                    flex-1 relative p-6 md:p-8 flex flex-col justify-start min-h-[240px] cursor-default
                     transition-all duration-400 hover:flex-[1.6] group
                     ${step.bgColor}
                   `}
                   style={{
-                    clipPath: index < 5 
-                      ? 'polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%)'
-                      : 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+                    clipPath: index === 0 
+                      ? 'polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%)'
+                      : index < 5
+                      ? 'polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%)'
+                      : 'polygon(0 0, 100% 0, 100% 100%, 0 100%, 20px 50%)',
                     marginLeft: index > 0 ? '-1px' : '0'
                   }}
                 >
@@ -355,7 +320,7 @@ const Services = () => {
                   </span>
                   
                   {/* Step content */}
-                  <div className="relative z-10">
+                  <div className="relative z-10 pt-4">
                     <h3 className="text-white font-heading text-xs md:text-sm font-semibold uppercase tracking-wider mb-3 leading-tight whitespace-pre-line">
                       {step.title}
                     </h3>
@@ -421,7 +386,7 @@ const Services = () => {
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                   className={`
-                    relative p-6 min-h-[160px] flex flex-col justify-end
+                    relative p-6 min-h-[160px] flex flex-col justify-start
                     ${step.bgColor}
                     ${index < 5 ? 'border-b border-white/8' : ''}
                   `}
@@ -432,7 +397,7 @@ const Services = () => {
                   </span>
                   
                   {/* Step content */}
-                  <div className="relative z-10">
+                  <div className="relative z-10 pt-4">
                     <h3 className="text-white font-heading text-sm font-semibold uppercase tracking-wider mb-3 leading-tight">
                       {step.title}
                     </h3>

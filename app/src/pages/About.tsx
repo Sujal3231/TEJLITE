@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Award, Users, Sparkles, Shield, Check } from 'lucide-react';
@@ -27,8 +27,8 @@ const milestones = [
 ];
 
 const values = [
-  { icon: Sparkles, title: 'Bespoke Craftsmanship', description: 'Every custom piece is engineered once — it must be right the first time. No brief is too complex if the intention is honest.' },
-  { icon: Shield, title: 'Complete In-House Capability', description: 'From design and fabrication to installation and after-care — one partner, one fluid journey, one point of accountability.' },
+  { icon: Sparkles, title: 'Bespoke Craftsmanship', description: 'Every custom piece is engineered once, it must be right the first time.' },
+  { icon: Shield, title: 'Complete In-House Capability', description: 'From design and fabrication to installation and after-care, one partner, one fluid journey, one point of accountability.' },
   { icon: Award, title: 'Value Engineering', description: 'We adapt specifications to suit any budget without compromising design intent, making us the go-to partner when projects need re-engineering.' },
   { icon: Users, title: 'Strong Relationships', description: 'Five decades of meaningful partnerships with India\'s most prestigious architects, developers, and hospitality brands.' },
 ];
@@ -44,6 +44,46 @@ const stats = [
 const AnimatedCounter = ({ value, label }: { value: string; label: string }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+  const [displayValue, setDisplayValue] = useState('0');
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    // Extract numeric value and suffix
+    const numericMatch = value.match(/^([\d,]+)/);
+    const suffix = value.replace(/^[\d,]+/, '');
+    
+    if (!numericMatch) {
+      setDisplayValue(value);
+      return;
+    }
+
+    const targetNumber = parseInt(numericMatch[1].replace(/,/g, ''));
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const increment = targetNumber / steps;
+    let current = 0;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      current = Math.min(targetNumber, Math.floor(increment * step));
+      
+      // Format number with commas if original had them
+      const formattedNumber = numericMatch[1].includes(',') 
+        ? current.toLocaleString() 
+        : current.toString();
+      
+      setDisplayValue(formattedNumber + suffix);
+
+      if (step >= steps) {
+        clearInterval(timer);
+        setDisplayValue(value); // Ensure final value matches exactly
+      }
+    }, duration / steps);
+
+    return () => clearInterval(timer);
+  }, [isInView, value]);
 
   return (
     <motion.div
@@ -53,7 +93,7 @@ const AnimatedCounter = ({ value, label }: { value: string; label: string }) => 
       transition={{ duration: 0.6 }}
       className="text-center"
     >
-      <p className="font-display text-4xl lg:text-5xl text-[#C9A84C] mb-2">{value}</p>
+      <p className="font-display text-4xl lg:text-5xl text-[#C9A84C] mb-2">{displayValue}</p>
       <p className="text-[#4A4A4A] text-sm uppercase tracking-[1px]">{label}</p>
     </motion.div>
   );
@@ -100,7 +140,7 @@ const About = () => {
             transition={{ delay: 0.2 }}
             className="text-white/80 max-w-2xl"
           >
-            Four decades of illuminating excellence, crafting light that defines spaces.
+            More than five decades of illuminating excellence, crafting light that defines spaces.
           </motion.p>
         </div>
       </section>
@@ -131,7 +171,7 @@ const About = () => {
                 
                 {/* Quote Overlay */}
                 <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8">
-                  <div className="bg-white/95 backdrop-blur-sm p-4 lg:p-6 border border-[#C9A84C]/20">
+                   <div className="bg-white backdrop-blur-sm p-4 lg:p-6 border border-[#C9A84C]/20">
                     <p className="font-display text-base lg:text-lg text-[#0D0D0D] italic leading-relaxed mb-2 lg:mb-3">
                       No brief is too complex if the intention is honest.
                     </p>
@@ -160,13 +200,13 @@ const About = () => {
                 
                 <div className="space-y-4 lg:space-y-6 text-[#4A4A4A] leading-relaxed text-sm lg:text-base">
                   <p>
-                    Established in 1975 as Tej Kiran, a part of Gala's Family Group, Tejlite brings together more than five decades of hands-on experience in working with light, evolving technologies, manufacturing insight and project coordination. In 1996, this growing commitment to lighting was formally named Tej Lite — marking our dedicated journey into bespoke lighting and one of the first players to bring premium technical and decorative luminaires into the Indian market.
+                    Established in 1975 as Tej Kiran, a part of Gala's Family Group, Tejlite brings together more than five decades of hands-on experience in working with light, evolving technologies, manufacturing insight and project coordination. In 1996, this growing commitment to lighting was formally named Tej Lite, marking our dedicated journey into bespoke lighting and one of the first players to bring premium technical and decorative luminaires into the Indian market.
                   </p>
                   <p>
                     Based in Mumbai, Tejlite has contributed to some of India's most recognised landmark projects. We are comfortable taking on complex briefs where standard solutions fall short and design intent must be preserved without compromise. Every project is approached as its own story, never as a standard solution.
                   </p>
                   <p>
-                    At Tejlite, we handle every aspect of lighting supply and installation under one roof — from planning and coordination to delivery and final handover. Our approach brings together thoughtful design integration, in-house development of custom lighting pieces, specialised installation and complete project coordination.
+                    At Tejlite, we handle every aspect of lighting supply and installation under one roof, from planning and coordination to delivery and final handover. Our approach brings together thoughtful design integration, in-house development of custom lighting pieces, specialised installation and complete project coordination.
                   </p>
                 </div>
               </div>
