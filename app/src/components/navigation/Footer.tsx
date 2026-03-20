@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { fetchSiteSettings, fetchCategories } from '@/services/products';
 import type { SiteSettings, Category } from '@/types';
 
+// Import the new logo
+import tejLiteLogo from '../../images/logo/Tej Lite Logo.png';
+
 const quickLinks = [
   { label: 'Home', href: '/' },
   { label: 'Products', href: '/products' },
@@ -105,13 +108,12 @@ const Footer = () => {
           {/* Column 1: Brand Info */}
           <div className="space-y-6">
             <Link to="/" className="inline-block">
-              <span className="font-display text-3xl font-bold text-white">
-                {settings?.site_name || 'TEJ LITE'}
-              </span>
+              <img
+                src={tejLiteLogo}
+                alt={settings?.site_name || 'TEJ LITE'}
+                className="h-20 w-auto"
+              />
             </Link>
-            <p className="text-[#C9A84C] text-sm uppercase tracking-[2px]">
-              Since 1977 · Bespoke Lighting
-            </p>
             <p className="text-white/60 text-sm leading-relaxed">
               Crafting extraordinary lighting solutions for luxury homes, hotels, 
               and commercial spaces. Four decades of illuminating excellence.

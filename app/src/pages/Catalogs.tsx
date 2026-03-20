@@ -53,7 +53,7 @@ const Catalogs = () => {
 
   const handleRequestSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Physical catalog request submitted! We will dispatch it within 2-3 business days.');
+    toast.success('Digital catalog request submitted! We will send the PDF to your email within 24 hours.');
     setRequestForm({ name: '', email: '', phone: '', address: '', city: '', pincode: '' });
   };
 
@@ -212,18 +212,18 @@ const Catalogs = () => {
         </div>
       </section>
 
-      {/* Physical Catalog Request */}
+      {/* PDF Catalog Request */}
       <section className="section-padding bg-[#1C1C1C]">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <p className="eyebrow mb-4">Request</p>
               <h2 className="font-display text-3xl lg:text-4xl text-white mb-6">
-                Physical Catalog
+                Digital Catalog
               </h2>
               <p className="text-white/60 leading-relaxed mb-8">
-                Prefer a physical copy? Fill in your details and we will send our 
-                latest catalog to your doorstep. Available for clients in India.
+                Get our latest catalog delivered directly to your email. Fill in your 
+                details and we will send you a comprehensive PDF catalog with our complete range.
               </p>
               
               <div className="space-y-4">
@@ -233,7 +233,7 @@ const Catalogs = () => {
                   </div>
                   <div>
                     <p className="text-white font-medium">Fill the form</p>
-                    <p className="text-white/60 text-sm">Enter your delivery details</p>
+                    <p className="text-white/60 text-sm">Enter your contact details</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -250,8 +250,8 @@ const Catalogs = () => {
                     <span className="text-xl">3</span>
                   </div>
                   <div>
-                    <p className="text-white font-medium">Delivery</p>
-                    <p className="text-white/60 text-sm">2-3 business days</p>
+                    <p className="text-white font-medium">Email delivery</p>
+                    <p className="text-white/60 text-sm">PDF sent to your inbox</p>
                   </div>
                 </div>
               </div>
@@ -298,11 +298,10 @@ const Catalogs = () => {
                   </div>
                   <div>
                     <label className="block font-heading text-sm uppercase tracking-[1px] text-[#4A4A4A] mb-2">
-                      City *
+                      Company (Optional)
                     </label>
                     <input
                       type="text"
-                      required
                       value={requestForm.city}
                       onChange={(e) => setRequestForm({ ...requestForm, city: e.target.value })}
                       className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
@@ -312,32 +311,19 @@ const Catalogs = () => {
 
                 <div className="mb-6">
                   <label className="block font-heading text-sm uppercase tracking-[1px] text-[#4A4A4A] mb-2">
-                    Delivery Address *
+                    Message (Optional)
                   </label>
                   <textarea
                     rows={3}
-                    required
                     value={requestForm.address}
                     onChange={(e) => setRequestForm({ ...requestForm, address: e.target.value })}
+                    placeholder="Tell us about your project or specific requirements..."
                     className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                   />
                 </div>
 
-                <div className="mb-6">
-                  <label className="block font-heading text-sm uppercase tracking-[1px] text-[#4A4A4A] mb-2">
-                    Pincode *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={requestForm.pincode}
-                    onChange={(e) => setRequestForm({ ...requestForm, pincode: e.target.value })}
-                    className="w-full md:w-1/2 px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
-                  />
-                </div>
-
                 <button type="submit" className="btn-primary w-full">
-                  Request Physical Copy
+                  Request Digital Catalog
                 </button>
               </form>
             </div>

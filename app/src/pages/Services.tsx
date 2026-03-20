@@ -16,13 +16,6 @@ const iconMap: Record<string, any> = {
   globe: Globe,
 };
 
-const usps = [
-  { icon: Sparkles, title: '47 Years Experience', description: 'Decades of lighting excellence' },
-  { icon: Palette, title: 'Custom Made', description: 'Tailored to your vision' },
-  { icon: Hammer, title: 'Premium Materials', description: 'Only the finest quality' },
-  { icon: Truck, title: 'Pan-India Delivery', description: 'Nationwide service network' },
-];
-
 const Services = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -178,82 +171,318 @@ const Services = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="section-padding bg-[#1C1C1C]">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <p className="eyebrow mb-4">Why Tej Lite</p>
-            <h2 className="font-display text-4xl text-white">
-              The Tej Lite Advantage
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {usps.map((usp, index) => (
-              <motion.div
-                key={usp.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-[#C9A84C]/10 text-[#C9A84C]">
-                  <usp.icon className="w-8 h-8" />
-                </div>
-                <h3 className="font-display text-lg text-white mb-2">
-                  {usp.title}
-                </h3>
-                <p className="text-white/60 text-sm">
-                  {usp.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
       <section className="section-padding bg-[#F2EDE4]">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <p className="eyebrow mb-4">How We Work</p>
-            <h2 className="font-display text-4xl text-[#0D0D0D]">
-              Our Process
+          <div className="text-center mb-16">
+            <p className="eyebrow mb-4">Why Tej Lite</p>
+            <h2 className="font-display text-4xl lg:text-5xl text-[#0D0D0D] mb-6 font-semibold">
+              Why Us
             </h2>
+            <p className="text-[#2A2A2A] max-w-2xl mx-auto text-lg font-medium">
+              With decades of experience and unwavering commitment to quality, 
+              we've built our reputation on delivering exceptional lighting solutions.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { step: '01', title: 'Consultation', description: 'We understand your vision, requirements, and budget.' },
-              { step: '02', title: 'Design', description: 'Our designers create custom lighting plans and 3D visualizations.' },
-              { step: '03', title: 'Fabrication', description: 'Skilled craftsmen bring the designs to life with precision.' },
-              { step: '04', title: 'Installation', description: 'Professional installation and final adjustments.' },
+              {
+                title: "Customisable Range",
+                description: "Standard or custom: we have the flexibility to deliver specifications designed around your exact project parameters.",
+                icon: (
+                  <svg viewBox="0 0 48 48" className="w-12 h-12 stroke-[#C9A84C] fill-none stroke-2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="8" x2="12" y2="40"/>
+                    <line x1="24" y1="8" x2="24" y2="40"/>
+                    <line x1="36" y1="8" x2="36" y2="40"/>
+                    <rect x="8" y="14" width="8" height="6" rx="3"/>
+                    <rect x="20" y="24" width="8" height="6" rx="3"/>
+                    <rect x="32" y="18" width="8" height="6" rx="3"/>
+                  </svg>
+                )
+              },
+              {
+                title: "50+ Years in the Industry",
+                description: "Throughout this time, decades of knowledge and experience has accumulated through the numerous projects we have been involved in.",
+                icon: (
+                  <svg viewBox="0 0 48 48" className="w-12 h-12 stroke-[#C9A84C] fill-none stroke-2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="24" cy="14" r="5"/>
+                    <path d="M14 36c0-5.5 4.5-10 10-10s10 4.5 10 10"/>
+                    <circle cx="10" cy="18" r="4"/>
+                    <path d="M2 36c0-4.4 3.6-8 8-8"/>
+                    <circle cx="38" cy="18" r="4"/>
+                    <path d="M46 36c0-4.4-3.6-8-8-8"/>
+                    <path d="M18 9l1 2.5H22l-2 1.5.8 2.5L18 14l-2.8 1.5.8-2.5-2-1.5h3z" strokeWidth="1.5"/>
+                    <path d="M24 6l.6 1.8H27l-1.5 1.1.6 1.8L24 9.7l-2.1 1 .6-1.8L21 7.8h2.4z" strokeWidth="1.5"/>
+                    <path d="M30 9l1 2.5H34l-2 1.5.8 2.5L30 14l-2.8 1.5.8-2.5-2-1.5h3z" strokeWidth="1.5"/>
+                  </svg>
+                )
+              },
+              {
+                title: "Strong Relationships",
+                description: "We believe in building meaningful, sustainable partnerships and consider client satisfaction our most valued achievement.",
+                icon: (
+                  <svg viewBox="0 0 48 48" className="w-12 h-12 stroke-[#C9A84C] fill-none stroke-2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 28l8-8 5 3 7-7 5 5 8-8"/>
+                    <path d="M6 28c3 3 7 4 11 2l3-2 4 4c2 2 5 2 7 0l8-8"/>
+                    <path d="M34 14c4-4 8 0 4 4l-8 8-4-4z"/>
+                    <path d="M14 18l-8 8c-2 2-2 5 0 7l4 4"/>
+                    <path d="M40 8 A18 18 0 0 1 42 24" strokeDasharray="3 3"/>
+                    <path d="M8 40 A18 18 0 0 1 6 24" strokeDasharray="3 3"/>
+                  </svg>
+                )
+              },
+              {
+                title: "Value Engineering",
+                description: "We optimize specifications to reduce costs and keep your project within budget—without compromising quality or performance.",
+                icon: (
+                  <svg viewBox="0 0 48 48" className="w-12 h-12 stroke-[#C9A84C] fill-none stroke-2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="22" cy="24" r="6"/>
+                    <path d="M22 10v4M22 38v-4M10 22h4M38 22h-4M13.8 13.8l2.8 2.8M33.4 33.4l-2.8-2.8M13.8 30.2l2.8-2.8M33.4 12.6l-2.8 2.8"/>
+                    <circle cx="34" cy="34" r="8" strokeWidth="2"/>
+                    <text x="34" y="38" textAnchor="middle" fontSize="12" stroke="none" fill="#C9A84C" fontFamily="DM Sans, sans-serif" fontWeight="700">$</text>
+                    <path d="M40 20l3-4-3-4M43 16h-6"/>
+                  </svg>
+                )
+              }
             ].map((item, index) => (
               <motion.div
-                key={item.step}
-                initial={{ opacity: 0, y: 20 }}
+                key={item.title}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="relative"
+                className="flex flex-col items-center group"
               >
-                <span className="font-display text-6xl text-[#C9A84C]/20">
-                  {item.step}
-                </span>
-                <h3 className="font-display text-xl text-[#0D0D0D] mt-4 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-[#4A4A4A] text-sm">
-                  {item.description}
-                </p>
-                {index < 3 && (
-                  <div className="hidden md:block absolute top-8 left-full w-full h-[2px] bg-[#C9A84C]/20" />
-                )}
+                {/* Icon Circle */}
+                <div className="w-24 h-24 rounded-full border-2 border-[#C9A84C] bg-white flex items-center justify-center mb-[-12px] relative z-10 transition-all duration-300 group-hover:scale-110 group-hover:border-[#A07830] shadow-sm">
+                  {item.icon}
+                </div>
+                
+                {/* Card */}
+                <div className="bg-white rounded-xl pt-8 pb-6 px-6 w-full h-70 flex flex-col justify-between transition-all duration-300 group-hover:shadow-lg border border-[#E5E0D5] group-hover:border-[#C9A84C]">
+                  <div>
+                    <h3 className="font-heading text-sm font-bold uppercase tracking-[0.05em] text-[#0D0D0D] leading-tight mb-3 mt-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm font-normal leading-relaxed text-[#2A2A2A] line-clamp-8">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Our Process Section */}
+      <section className="section-padding bg-[#0D0D0D]">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <p className="eyebrow mb-4 text-[#C9A84C]">How We Work</p>
+            <h2 className="font-display text-4xl lg:text-6xl text-white mb-6">
+              Our Process
+            </h2>
+            <p className="text-white/60 max-w-2xl mx-auto text-lg">
+              Our team are integral to every step of the journey. This active participation enables 
+              us to maintain the highest levels of quality control and customer care.
+            </p>
+          </div>
+
+          {/* Horizontal Chevron Process Flow */}
+          <div className="w-full mb-16">
+            {/* Desktop Version */}
+            <div className="hidden md:flex w-full rounded-lg overflow-hidden">
+              {[
+                {
+                  number: "1",
+                  title: "Research &\nDevelopment",
+                  items: ["Understand Client Needs", "Dialogue on Technical Input", "Proposal"],
+                  bgColor: "bg-[#C9A84C]"
+                },
+                {
+                  number: "2", 
+                  title: "Design Approval\n& Pricing",
+                  items: ["Product Design", "Electrical Schematics", "Luminaire Quotation"],
+                  bgColor: "bg-[#B8975C]"
+                },
+                {
+                  number: "3",
+                  title: "Manufacturing &\nProduct Development", 
+                  items: ["CNC", "Metalwork", "Custom PCB Production"],
+                  bgColor: "bg-[#A7866C]"
+                },
+                {
+                  number: "4",
+                  title: "Testing, Finishing &\nAssembling",
+                  items: ["Product Testing", "Programming"],
+                  bgColor: "bg-[#96757C]"
+                },
+                {
+                  number: "5",
+                  title: "Delivery &\nInstallation", 
+                  items: ["Commissioning", "Inspection", "Final System Testing"],
+                  bgColor: "bg-[#85648C]"
+                },
+                {
+                  number: "6",
+                  title: "After-care",
+                  items: ["Quarterly Audits", "Repair & Maintenance", "Lighting Quality Assurance"],
+                  bgColor: "bg-[#74539C]"
+                }
+              ].map((step, index) => (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  viewport={{ once: true }}
+                  className={`
+                    flex-1 relative p-6 md:p-8 flex flex-col justify-end min-h-[240px] cursor-default
+                    transition-all duration-400 hover:flex-[1.6] group
+                    ${step.bgColor}
+                  `}
+                  style={{
+                    clipPath: index < 5 
+                      ? 'polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%)'
+                      : 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+                    marginLeft: index > 0 ? '-1px' : '0'
+                  }}
+                >
+                  {/* Large background number */}
+                  <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-display text-[130px] leading-none text-white/12 pointer-events-none select-none transition-opacity duration-300 group-hover:opacity-25">
+                    {step.number}
+                  </span>
+                  
+                  {/* Step content */}
+                  <div className="relative z-10">
+                    <h3 className="text-white font-heading text-xs md:text-sm font-semibold uppercase tracking-wider mb-3 leading-tight whitespace-pre-line">
+                      {step.title}
+                    </h3>
+                    <ul className="space-y-1">
+                      {step.items.map((item, itemIndex) => (
+                        <li key={itemIndex} className="flex items-start space-x-2">
+                          <span className="text-white/40 text-xs mt-1">–</span>
+                          <span className="text-white/75 text-xs leading-relaxed">
+                            {item}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Mobile Version */}
+            <div className="md:hidden space-y-4">
+              {[
+                {
+                  number: "1",
+                  title: "Research & Development",
+                  items: ["Understand Client Needs", "Dialogue on Technical Input", "Proposal"],
+                  bgColor: "bg-[#C9A84C]"
+                },
+                {
+                  number: "2", 
+                  title: "Design Approval & Pricing",
+                  items: ["Product Design", "Electrical Schematics", "Luminaire Quotation"],
+                  bgColor: "bg-[#B8975C]"
+                },
+                {
+                  number: "3",
+                  title: "Manufacturing & Product Development", 
+                  items: ["CNC", "Metalwork", "Custom PCB Production"],
+                  bgColor: "bg-[#A7866C]"
+                },
+                {
+                  number: "4",
+                  title: "Testing, Finishing & Assembling",
+                  items: ["Product Testing", "Programming"],
+                  bgColor: "bg-[#96757C]"
+                },
+                {
+                  number: "5",
+                  title: "Delivery & Installation", 
+                  items: ["Commissioning", "Inspection", "Final System Testing"],
+                  bgColor: "bg-[#85648C]"
+                },
+                {
+                  number: "6",
+                  title: "After-care",
+                  items: ["Quarterly Audits", "Repair & Maintenance", "Lighting Quality Assurance"],
+                  bgColor: "bg-[#74539C]"
+                }
+              ].map((step, index) => (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className={`
+                    relative p-6 min-h-[160px] flex flex-col justify-end
+                    ${step.bgColor}
+                    ${index < 5 ? 'border-b border-white/8' : ''}
+                  `}
+                >
+                  {/* Large background number */}
+                  <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-display text-[80px] leading-none text-white/12 pointer-events-none select-none">
+                    {step.number}
+                  </span>
+                  
+                  {/* Step content */}
+                  <div className="relative z-10">
+                    <h3 className="text-white font-heading text-sm font-semibold uppercase tracking-wider mb-3 leading-tight">
+                      {step.title}
+                    </h3>
+                    <ul className="space-y-1">
+                      {step.items.map((item, itemIndex) => (
+                        <li key={itemIndex} className="flex items-start space-x-2">
+                          <span className="text-white/40 text-xs mt-1">–</span>
+                          <span className="text-white/75 text-xs leading-relaxed">
+                            {item}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Decorative line and footer note */}
+            <div className="mt-12">
+              <div className="h-[1px] bg-gradient-to-r from-[#C9A84C] to-transparent w-2/5 opacity-40 mb-5"></div>
+              <p className="text-white/20 text-xs uppercase tracking-[0.1em] font-heading">
+                End-to-end quality · 6 integrated stages
+              </p>
+            </div>
+          </div>
+          
+
+          {/* Quote Section */}
+          <div className="mt-20 relative h-[400px] rounded-lg overflow-hidden">
+            <div 
+              className="w-full h-full bg-cover bg-center"
+              style={{
+                backgroundImage: `url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1920&q=80')`
+              }}
+            >
+              <div className="absolute inset-0 bg-[#C9A84C]/20 backdrop-brightness-75"></div>
+              <div className="absolute bottom-12 left-12 max-w-md">
+                <p className="text-white font-display italic text-2xl leading-relaxed">
+                  "Architectural precision is not just a standard, it's our foundational philosophy."
+                </p>
+                <p className="text-white/80 font-heading text-sm uppercase tracking-widest mt-4">
+                  — Nemji Gala, Founder
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
 
       {/* CTA Section */}
       <section className="section-padding bg-[#0D0D0D]">
@@ -280,3 +509,5 @@ const Services = () => {
 };
 
 export default Services;
+
+

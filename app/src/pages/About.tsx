@@ -1,15 +1,29 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Award, Users, Sparkles, Shield, Check } from 'lucide-react';
 
+// Import milestone images
+import milestone1975 from '../images/1975.png';
+import milestone1998 from '../images/1998.png';
+import milestone2001 from '../images/2001.png';
+import milestone2002 from '../images/2002.png';
+import milestone2003 from '../images/2003.png';
+import milestone2024 from '../images/2024.png';
+import founderImage from '../images/Nemji Sir.png';
+
+// Import logo images
+import tejLiteGroupLogo from '../images/logo/Left Content.png';
+import tejLiteLogo from '../images/logo/Entity 1_ TEJ LITE.png';
+import experienceEmotionLogo from '../images/logo/Entity 2_ EXPERIENCE+EMOTION.png';
+
 const milestones = [
-  { year: '1975', title: 'Established', description: 'Founded as Tej Kiran, a family-owned business, part of Gala\'s Family Group, which later evolved as Tej Lite.', image: '/src/images/1975.png' },
-  { year: '1998', title: 'Showroom Launch', description: 'IIID Past President Ar. Jayant Tipnis inaugurated our Lighting Showroom in Mumbai.', image: '/src/images/1998.png' },
-  { year: '2001', title: 'First Artemide', description: 'First to bring Artemide to India, marking a defining moment in premium lighting.', image: '/src/images/2001.png' },
-  { year: '2002', title: 'International Brands & Lighting Idea Book', description: 'First to introduce international brands: Atelier Sedap (FR), Regent (CH), Vistosi (IT), Unilamp (TH), Atomis (NL), Cristallux (DE), Poesia (IT), Eglo (AT), Murano Glass Collection (IT), Belfiore (IT) & Swarovski (AT). Also introduced the Lighting Idea Book, a 24-chapter guide on lighting, distributed 5,000+ copies to architects, designers, and corporate institutions.', image: '/src/images/2002.png' },
-  { year: '2003', title: 'Ratan Tata Visit', description: 'Honoured by a visit from Industrialist Shri Ratan Tata at our Tejlite Showroom.', image: '/src/images/2003.png' },
-  { year: '2024', title: 'Growing Team & Endo Centre', description: 'A team of 23 dedicated professionals + partners. Launched Endo Experience Centre in Mumbai with President Mr. Kunihiko Endo.', image: '/src/images/2024.png' },
+  { year: '1975', title: 'Established', description: 'Founded as Tej Kiran, a family-owned business, part of Gala\'s Family Group, which later evolved as Tej Lite.', image: milestone1975 },
+  { year: '1998', title: 'Showroom Launch', description: 'IIID Past President Ar. Jayant Tipnis inaugurated our Lighting Showroom in Mumbai.', image: milestone1998 },
+  { year: '2001', title: 'First Artemide', description: 'First to bring Artemide to India, marking a defining moment in premium lighting.', image: milestone2001 },
+  { year: '2002', title: 'International Brands & Lighting Idea Book', description: 'First to introduce international brands: Atelier Sedap (FR), Regent (CH), Vistosi (IT), Unilamp (TH), Atomis (NL), Cristallux (DE), Poesia (IT), Eglo (AT), Murano Glass Collection (IT), Belfiore (IT) & Swarovski (AT). Also introduced the Lighting Idea Book, a 24-chapter guide on lighting, distributed 5,000+ copies to architects, designers, and corporate institutions.', image: milestone2002 },
+  { year: '2003', title: 'Ratan Tata Visit', description: 'Honoured by a visit from Industrialist Shri Ratan Tata at our Tejlite Showroom.', image: milestone2003 },
+  { year: '2024', title: 'Growing Team & Endo Centre', description: 'A team of 23 dedicated professionals + partners. Launched Endo Experience Centre in Mumbai with President Mr. Kunihiko Endo.', image: milestone2024 },
 ];
 
 const values = [
@@ -17,10 +31,6 @@ const values = [
   { icon: Shield, title: 'Complete In-House Capability', description: 'From design and fabrication to installation and after-care — one partner, one fluid journey, one point of accountability.' },
   { icon: Award, title: 'Value Engineering', description: 'We adapt specifications to suit any budget without compromising design intent, making us the go-to partner when projects need re-engineering.' },
   { icon: Users, title: 'Strong Relationships', description: 'Five decades of meaningful partnerships with India\'s most prestigious architects, developers, and hospitality brands.' },
-];
-
-const _team = [
-  { name: 'Nemji Gala', role: 'Founder', bio: 'Visionary leader with 50+ years in the lighting industry. Built Tejlite from a family business into India\'s trusted lighting expert.', image: '/src/images/Nemji Sir.png' },
 ];
 
 const stats = [
@@ -50,6 +60,8 @@ const AnimatedCounter = ({ value, label }: { value: string; label: string }) => 
 };
 
 const About = () => {
+  const [selectedMilestone, setSelectedMilestone] = useState<any>(null);
+  
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
       {/* Hero Section */}
@@ -102,13 +114,13 @@ const About = () => {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="lg:col-span-2 relative bg-[#E8E4DB]"
+              className="lg:col-span-2 relative bg-[#E8E4DB] min-h-[400px] lg:min-h-full"
             >
               <div className="relative h-full">
                 {/* Founder Image */}
                 <div className="h-full overflow-hidden">
                   <img
-                    src="/src/images/Nemji Sir.png"
+                    src={founderImage}
                     alt="Nemji Gala - Founder"
                     className="w-full h-full object-cover object-center"
                     onError={(e) => {
@@ -118,9 +130,9 @@ const About = () => {
                 </div>
                 
                 {/* Quote Overlay */}
-                <div className="absolute bottom-8 left-8 right-8">
-                  <div className="bg-white/95 backdrop-blur-sm p-6 border border-[#C9A84C]/20">
-                    <p className="font-display text-lg text-[#0D0D0D] italic leading-relaxed mb-3">
+                <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8">
+                  <div className="bg-white/95 backdrop-blur-sm p-4 lg:p-6 border border-[#C9A84C]/20">
+                    <p className="font-display text-base lg:text-lg text-[#0D0D0D] italic leading-relaxed mb-2 lg:mb-3">
                       No brief is too complex if the intention is honest.
                     </p>
                     <footer className="text-[#C9A84C] font-heading text-xs uppercase tracking-[2px]">
@@ -138,15 +150,15 @@ const About = () => {
               viewport={{ once: true }}
               className="lg:col-span-3 flex items-center"
             >
-              <div className="p-8 lg:p-12 lg:pl-16">
-                <div className="mb-8">
+              <div className="p-6 lg:p-12 lg:pl-16">
+                <div className="mb-6 lg:mb-8">
                   <p className="eyebrow mb-4">Our Story</p>
-                  <h2 className="font-display text-3xl lg:text-4xl text-[#0D0D0D] mb-8 leading-tight">
+                  <h2 className="font-display text-2xl lg:text-3xl xl:text-4xl text-[#0D0D0D] mb-6 lg:mb-8 leading-tight">
                     Five Decades of Illuminating Excellence
                   </h2>
                 </div>
                 
-                <div className="space-y-6 text-[#4A4A4A] leading-relaxed">
+                <div className="space-y-4 lg:space-y-6 text-[#4A4A4A] leading-relaxed text-sm lg:text-base">
                   <p>
                     Established in 1975 as Tej Kiran, a part of Gala's Family Group, Tejlite brings together more than five decades of hands-on experience in working with light, evolving technologies, manufacturing insight and project coordination. In 1996, this growing commitment to lighting was formally named Tej Lite — marking our dedicated journey into bespoke lighting and one of the first players to bring premium technical and decorative luminaires into the Indian market.
                   </p>
@@ -162,127 +174,249 @@ const About = () => {
           </div>
         </div>
       </section>
-      {/* Timeline */}
-      <section className="section-padding mb-10 bg-white">
-  <div className="container-custom">
-    <div className="text-center mb-6">
-      <p className="eyebrow mb-4">Our Journey</p>
-      <h2 className="font-display text-4xl text-[#0D0D0D]">Milestones</h2>
-    </div>
 
-    <div className="relative max-w-7xl mx-auto">
-  {/* Timeline Line — fixed pixel, matches minHeight of top half + dot offset */}
-  <div
-    className="absolute left-0 w-full h-px bg-[#C9A84C]/30 hidden lg:block"
-    style={{ top: '273px' }}
-  ></div>
+{/* Brand Showcase Section */}
+      <section className="bg-black py-24 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative flex flex-col md:flex-row items-center justify-between min-h-[500px]">
+            {/* Left Content - TEJ LITE GROUP */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="w-full md:w-1/3 mb-8 md:mb-0"
+            >
+              <img
+                src={tejLiteGroupLogo}
+                alt="TEJ LITE GROUP"
+                className="w-full max-w-[400px] h-auto mx-auto md:mx-0"
+              />
+            </motion.div>
 
-  <div className="hidden lg:grid lg:grid-cols-6 gap-2 relative">
-    {milestones.map((milestone, index) => {
-      const isAbove = index % 2 === 0;
+            {/* Mobile Simple Connector */}
+            <div className="md:hidden w-full flex justify-center mb-8">
+              <div className="flex flex-col items-center">
+                <div className="w-0.5 h-12 bg-[#C9A84C]"></div>
+                <div className="w-4 h-4 bg-[#C9A84C] rounded-full"></div>
+                <div className="w-0.5 h-12 bg-[#C9A84C]"></div>
+              </div>
+            </div>
 
-      return (
-        <motion.div
-          key={milestone.year}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center text-center group"
-        >
-          {/* TOP HALF — fixed 260px */}
-          <div
-            className="flex flex-col items-center justify-end w-full"
-            style={{ height: '260px' }}  
-          >
-            {isAbove && (
-              <>
-                <div className="w-28 h-28 rounded-lg overflow-hidden border border-[#E5E0D5] shadow-sm group-hover:border-[#C9A84C] transition-colors mb-3 flex-shrink-0">
+            {/* The Diagram (SVG Branching Line) - Desktop Only */}
+            <div className="hidden md:block absolute left-1/3 right-1/3 h-full pointer-events-none">
+              <svg className="w-full h-full" fill="none" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                {/* Central connecting line */}
+                <path d="M0 150 H100" stroke="#C9A84C" strokeWidth="2" />
+                {/* Upper Branch */}
+                <path d="M100 150 C180 150 220 80 300 80" stroke="#C9A84C" strokeWidth="2" />
+                <path d="M295 75 L300 80 L295 85" stroke="#C9A84C" strokeWidth="2" />
+                {/* Lower Branch */}
+                <path d="M100 150 C180 150 220 220 300 220" stroke="#C9A84C" strokeWidth="2" />
+                <path d="M295 215 L300 220 L295 225" stroke="#C9A84C" strokeWidth="2" />
+              </svg>
+            </div>
+
+            {/* Right Content - Brand Arms */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="w-full md:w-1/3 flex flex-col gap-12 md:gap-20 md:pl-12"
+            >
+              {/* Entity 1: TEJ LITE */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-center md:justify-start">
                   <img
-                    alt={`${milestone.year} milestone`}
-                    className="w-full h-full object-cover"
-                    src={milestone.image}
+                    alt="Tej Lite Logo"
+                    className="w-full max-w-[280px] h-auto"
+                    src={tejLiteLogo}
                   />
                 </div>
-                <div className="text-[#C9A84C] font-bold font-display text-base mb-1">{milestone.year}</div>
-                <h4 className="font-bold text-[11px] uppercase tracking-wider mb-2 text-[#0D0D0D] leading-tight">{milestone.title}</h4>
-                <p className="text-[11px] text-[#4A4A4A] leading-relaxed px-1">{milestone.description}</p>
-              </>
-            )}
-          </div>
+              </div>
 
-          {/* DOT — always sits at exactly 260px from top */}
-          <div className="w-3 h-3 rounded-full bg-[#C9A84C] ring-4 ring-white z-10 flex-shrink-0 my-2"></div>
+              {/* Mobile Simple Separator */}
+              <div className="md:hidden flex justify-center">
+                <div className="w-12 h-0.5 bg-[#C9A84C]/60"></div>
+              </div>
 
-          {/* BOTTOM HALF — fixed 260px */}
-          <div
-            className="flex flex-col items-center w-full"
-            style={{ height: '260px' }}  
-          >
-            {!isAbove && (
-              <>
-                <div className="text-[#C9A84C] font-bold font-display text-base mb-1 mt-2">{milestone.year}</div>
-                <h4 className="font-bold text-[11px] uppercase tracking-wider mb-2 text-[#0D0D0D] leading-tight">{milestone.title}</h4>
-                <p className="text-[11px] text-[#4A4A4A] leading-relaxed mb-4 px-1">{milestone.description}</p>
-                <div className="w-28 h-28 rounded-lg overflow-hidden border border-[#E5E0D5] shadow-sm group-hover:border-[#C9A84C] transition-colors flex-shrink-0">
+              {/* Entity 2: EXPERIENCE+EMOTION */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-center md:justify-start">
                   <img
-                    alt={`${milestone.year} milestone`}
-                    className="w-full h-full object-cover"
-                    src={milestone.image}
+                    alt="Experience + Emotion Logo"
+                    className="w-full max-w-[280px] h-auto"
+                    src={experienceEmotionLogo}
                   />
                 </div>
-              </>
-            )}
-          </div>
-        </motion.div>
-      );
-    })}
-  </div>
-
-  {/* MOBILE — unchanged */}
-  <div className="lg:hidden flex flex-col">
-    {milestones.map((milestone, index) => (
-      <motion.div
-        key={milestone.year}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.08 }}
-        viewport={{ once: true }}
-        className="flex flex-col items-center"
-      >
-        <div className="flex gap-4 items-start text-left w-full px-2 py-4 border border-[#E5E0D5] rounded-xl">
-          <div className="w-16 h-16 rounded-lg overflow-hidden border border-[#E5E0D5] flex-shrink-0">
-            <img
-              alt={`${milestone.year} milestone`}
-              className="w-full h-full object-cover"
-              src={milestone.image}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src =
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(milestone.title.substring(0, 2))}&background=C9A84C&color=fff&size=200`;
-              }}
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-[#C9A84C] font-bold font-display text-sm mb-0.5">{milestone.year}</div>
-            <h4 className="font-bold text-[11px] uppercase tracking-wider mb-1 text-[#0D0D0D] leading-tight">{milestone.title}</h4>
-            <p className="text-[11px] text-[#4A4A4A] leading-relaxed">{milestone.description}</p>
+              </div>
+            </motion.div>
           </div>
         </div>
-        {index < milestones.length - 1 && (
-          <div className="flex flex-col items-center py-1">
-            <div className="w-0.5 h-4 bg-[#C9A84C]/40"></div>
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-              <path d="M1 1L6 6L11 1" stroke="#C9A84C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/>
-            </svg>
+      </section>
+
+      {/* Timeline */}
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <p className="eyebrow mb-4">Our Journey</p>
+            <h2 className="font-display text-4xl text-[#0D0D0D] mb-4">Milestones</h2>
+            <div className="w-16 h-[2px] bg-[#C9A84C] mx-auto"></div>
+          </div>
+
+          <div className="relative max-w-7xl mx-auto">
+            {/* Desktop Timeline */}
+            <div className="hidden lg:block">
+              {/* Dotted connecting line */}
+              <div className="absolute top-1/2 left-0 right-0 h-0.5 border-t-2 border-dotted border-[#C9A84C]/40 -translate-y-1/2 z-0"></div>
+              
+              <div className="grid grid-cols-6 gap-4 relative z-10">
+                {milestones.map((milestone, index) => (
+                  <motion.div
+                    key={milestone.year}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="relative flex flex-col items-center"
+                  >
+                    {/* Timeline Card */}
+                    <div 
+                      className="relative h-[280px] w-full rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer border border-[#E5E0D5] hover:border-[#C9A84C]"
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${milestone.image})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat'
+                      }}
+                      onClick={() => setSelectedMilestone(milestone)}
+                    >
+                      {/* Card Content */}
+                      <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                        <div>
+                          <div className="text-[#C9A84C] font-bold font-display text-2xl mb-2">
+                            {milestone.year}
+                          </div>
+                          <h4 className="font-bold text-sm uppercase tracking-wider leading-tight mb-3">
+                            {milestone.title}
+                          </h4>
+                        </div>
+                        
+                        <div>
+                          <p className="text-xs leading-relaxed opacity-90">
+                            {milestone.description.length > 100 
+                              ? `${milestone.description.substring(0, 100)}...` 
+                              : milestone.description
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile Timeline */}
+            <div className="lg:hidden space-y-6">
+              {milestones.map((milestone, index) => (
+                <motion.div
+                  key={milestone.year}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <div 
+                    className="relative h-[200px] rounded-2xl overflow-hidden bg-white shadow-lg cursor-pointer border border-[#E5E0D5]"
+                    style={{
+                      backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${milestone.image})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat'
+                    }}
+                    onClick={() => setSelectedMilestone(milestone)}
+                  >
+                    {/* Card Content */}
+                    <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                      <div>
+                        <div className="text-[#C9A84C] font-bold font-display text-xl mb-2">
+                          {milestone.year}
+                        </div>
+                        <h4 className="font-bold text-sm uppercase tracking-wider leading-tight mb-2">
+                          {milestone.title}
+                        </h4>
+                      </div>
+                      
+                      <div>
+                        <p className="text-xs leading-relaxed opacity-90">
+                          {milestone.description.length > 80 
+                            ? `${milestone.description.substring(0, 80)}...` 
+                            : milestone.description
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Mobile connector line */}
+                  {index < milestones.length - 1 && (
+                    <div className="flex justify-center py-4">
+                      <div className="w-0.5 h-8 bg-[#C9A84C]/40"></div>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Milestone Popup Modal */}
+        {selectedMilestone && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="bg-white rounded-2xl w-full max-h-[90vh] overflow-y-auto"
+              style={{ maxWidth: '21rem' }}
+            >
+              {/* Modal Header */}
+              <div className="relative">
+                <img
+                  src={selectedMilestone.image}
+                  alt={`${selectedMilestone.year} milestone`}
+                  className="w-full h-45 object-cover rounded-t-2xl"
+                />
+                <button
+                  onClick={() => setSelectedMilestone(null)}
+                  className="absolute top-4 right-4 w-8 h-8 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors text-xl"
+                >
+                  ×
+                </button>
+                <div className="absolute bottom-4 left-4">
+                  <span className="bg-[#C9A84C] text-white px-3 py-1 rounded-full font-bold text-lg">
+                    {selectedMilestone.year}
+                  </span>
+                </div>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-8">
+                <h3 className="font-display text-2xl text-[#0D0D0D] mb-4">
+                  {selectedMilestone.title}
+                </h3>
+                <p className="text-[#4A4A4A] leading-relaxed">
+                  {selectedMilestone.description}
+                </p>
+              </div>
+            </motion.div>
           </div>
         )}
-      </motion.div>
-    ))}
-  </div>
-</div>
-  </div>
-</section>  
- {/* Stats Section */}
+      </section>
+  
+
+      {/* Stats Section */}
       <section className="section-padding bg-[#0D0D0D]">
         <div className="container-custom">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -313,7 +447,7 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-[#C9A84C]/10 text-[#C9A84C]">
+                <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-[#C9A84C]/10 text-[#C9A84C] rounded-full">
                   <value.icon className="w-8 h-8" />
                 </div>
                 <h3 className="font-display text-xl text-[#0D0D0D] mb-2">{value.title}</h3>
@@ -365,8 +499,9 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team Section */}
-      {/* <section className="section-padding bg-[#F2EDE4]">
+      {/* Team Section - Commented out for new brand showcase */}
+      {/* 
+      <section className="section-padding bg-[#F2EDE4]">
         <div className="container-custom">
           <div className="text-center mb-12">
             <p className="eyebrow mb-4">Our People</p>
@@ -404,12 +539,13 @@ const About = () => {
             ))}
           </div>
         </div>
-      </section> */}
+      </section>
+      */}
 
       {/* Our Clients Section */}
       <section className="section-padding bg-[#FAF7F2]">
         <div className="container-custom">
-          <div className="text-center mb-8">
+          <div className="text-center mb-16">
             <p className="eyebrow mb-4">Trusted By</p>
             <h2 className="font-display text-4xl text-[#0D0D0D] mb-4">Our Clients</h2>
             <p className="text-[#4A4A4A] max-w-2xl mx-auto">
@@ -419,52 +555,52 @@ const About = () => {
 
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-4">
             {[
-              { logo: '/src/images/clients/palladium.png', name: 'Palladium' },
-              { logo: '/src/images/clients/inorbit.png', name: 'Inorbit' },
-              { logo: '/src/images/clients/phoenix-mills.png', name: 'Phoenix Mills' },
-              { logo: '/src/images/clients/goldmine.png', name: 'Goldmine' },
-              { logo: '/src/images/clients/boss-home-appliances.png', name: 'Boss' },
-              { logo: '/src/images/clients/shapoorji-pallonji.png', name: 'Shapoorji Pallonji' },
-              { logo: '/src/images/clients/kanakia.png', name: 'Kanakia' },
-              { logo: '/src/images/clients/plus-light-tech.png', name: 'Plus Light Tech' },
-              { logo: '/src/images/clients/ramoji-film-city.png', name: 'Ramoji Film City' },
-              { logo: '/src/images/clients/the-club-mumbai.png', name: 'The Club Mumbai' },
-              { logo: '/src/images/clients/st-regis.png', name: 'St Regis' },
-              { logo: '/src/images/clients/taj-hotels.png', name: 'Taj Hotels' },
-              { logo: '/src/images/clients/sunshine-tower-hotel.png', name: 'Sunshine Hotel' },
-              { logo: '/src/images/clients/dolphin-hotels.png', name: 'Dolphin Hotels' },
-              { logo: '/src/images/clients/hotel-roma-kristo.png', name: 'Hotel Roma Kristo' },
-              { logo: '/src/images/clients/hotel-maple-ivy.png', name: 'Maple Ivy' },
-              { logo: '/src/images/clients/saregamapa.png', name: 'Saregamapa' },
-              { logo: '/src/images/clients/jw-marriott.png', name: 'JW Marriott' },
-              { logo: '/src/images/clients/bafna-motors.png', name: 'Bafna Motors' },
-              { logo: '/src/images/clients/star-plus.png', name: 'Star Plus' },
-              { logo: '/src/images/clients/aamby-valley.png', name: 'Aamby Valley' },
-              { logo: '/src/images/clients/pnp.png', name: 'PNP' },
-              { logo: '/src/images/clients/reliance-industries.png', name: 'Reliance Industries' },
-              { logo: '/src/images/clients/rdcc-bank.png', name: 'RDCC Bank' },
-              { logo: '/src/images/clients/godrej-interio.png', name: 'Godrej Interio' },
-              { logo: '/src/images/clients/vivanta.png', name: 'Vivanta' },
-              { logo: '/src/images/clients/courtyard-marriott.png', name: 'Courtyard' },
-              { logo: '/src/images/clients/avighna.png', name: 'Avighna' },
-              { logo: '/src/images/clients/charbhuja-jewellers.png', name: 'Charbhuja Jewellers' },
-              { logo: '/src/images/clients/red-brick.png', name: 'Red Brick' },
-              { logo: '/src/images/clients/somaya-kalappa.png', name: 'Somaya & Kalappa' },
-              { logo: '/src/images/clients/syndrome.png', name: 'Syndrome' },
-              { logo: '/src/images/clients/tata-consultancy.png', name: 'TATA' },
-              { logo: '/src/images/clients/project-eve.png', name: 'Project Eve' },
-              { logo: '/src/images/clients/ever-shine-banquets.png', name: 'Ever Shine' },
-              { logo: '/src/images/clients/lokmat.png', name: 'Lokmat' },
-              { logo: '/src/images/clients/sankpal.png', name: 'Sankpal' },
-              // { logo: '/src/images/clients/nitido.png', name: 'Nitido' },
-              { logo: '/src/images/clients/jio.png', name: 'Jio' },
-              { logo: '/src/images/clients/reliance-retail.png', name: 'Reliance Retail' },
-              { logo: '/src/images/clients/krishival.png', name: 'Krishival' },
-              { logo: '/src/images/clients/salar-jung-museum.png', name: 'Salar Jung Museum' },
-              { logo: '/src/images/clients/nss-hill-spring.png', name: 'NSS Hill Spring' },
-              { logo: '/src/images/clients/siddhivinayak.png', name: 'Siddhivinayak' },
-              { logo: '/src/images/clients/nashik-city-centre.png', name: 'Nashik City Centre' },
-              { logo: '/src/images/clients/hotel-aram.png', name: 'Hotel Aram' },
+              { logo: '/images/clients/palladium.png', name: 'Palladium' },
+              { logo: '/images/clients/inorbit.png', name: 'Inorbit' },
+              { logo: '/images/clients/phoenix-mills.png', name: 'Phoenix Mills' },
+              { logo: '/images/clients/goldmine.png', name: 'Goldmine' },
+              { logo: '/images/clients/boss-home-appliances.png', name: 'Boss' },
+              { logo: '/images/clients/shapoorji-pallonji.png', name: 'Shapoorji Pallonji' },
+              { logo: '/images/clients/kanakia.png', name: 'Kanakia' },
+              { logo: '/images/clients/plus-light-tech.png', name: 'Plus Light Tech' },
+              { logo: '/images/clients/ramoji-film-city.png', name: 'Ramoji Film City' },
+              { logo: '/images/clients/the-club-mumbai.png', name: 'The Club Mumbai' },
+              { logo: '/images/clients/st-regis.png', name: 'St Regis' },
+              { logo: '/images/clients/taj-hotels.png', name: 'Taj Hotels' },
+              { logo: '/images/clients/sunshine-tower-hotel.png', name: 'Sunshine Hotel' },
+              { logo: '/images/clients/dolphin-hotels.png', name: 'Dolphin Hotels' },
+              { logo: '/images/clients/hotel-roma-kristo.png', name: 'Hotel Roma Kristo' },
+              { logo: '/images/clients/hotel-maple-ivy.png', name: 'Maple Ivy' },
+              { logo: '/images/clients/saregamapa.png', name: 'Saregamapa' },
+              { logo: '/images/clients/jw-marriott.png', name: 'JW Marriott' },
+              { logo: '/images/clients/bafna-motors.png', name: 'Bafna Motors' },
+              { logo: '/images/clients/star-plus.png', name: 'Star Plus' },
+              { logo: '/images/clients/aamby-valley.png', name: 'Aamby Valley' },
+              { logo: '/images/clients/pnp.png', name: 'PNP' },
+              { logo: '/images/clients/reliance-industries.png', name: 'Reliance Industries' },
+              { logo: '/images/clients/rdcc-bank.png', name: 'RDCC Bank' },
+              { logo: '/images/clients/godrej-interio.png', name: 'Godrej Interio' },
+              { logo: '/images/clients/vivanta.png', name: 'Vivanta' },
+              { logo: '/images/clients/courtyard-marriott.png', name: 'Courtyard' },
+              { logo: '/images/clients/avighna.png', name: 'Avighna' },
+              { logo: '/images/clients/charbhuja-jewellers.png', name: 'Charbhuja Jewellers' },
+              { logo: '/images/clients/red-brick.png', name: 'Red Brick' },
+              { logo: '/images/clients/somaya-kalappa.png', name: 'Somaya & Kalappa' },
+              { logo: '/images/clients/syndrome.png', name: 'Syndrome' },
+              { logo: '/images/clients/tata-consultancy.png', name: 'TATA' },
+              { logo: '/images/clients/project-eve.png', name: 'Project Eve' },
+              { logo: '/images/clients/ever-shine-banquets.png', name: 'Ever Shine' },
+              { logo: '/images/clients/lokmat.png', name: 'Lokmat' },
+              { logo: '/images/clients/sankpal.png', name: 'Sankpal' },
+              { logo: '/images/clients/nitido.png', name: 'Nitido' },
+              { logo: '/images/clients/jio.png', name: 'Jio' },
+              { logo: '/images/clients/reliance-retail.png', name: 'Reliance Retail' },
+              { logo: '/images/clients/krishival.png', name: 'Krishival' },
+              { logo: '/images/clients/salar-jung-museum.png', name: 'Salar Jung Museum' },
+              { logo: '/images/clients/nss-hill-spring.png', name: 'NSS Hill Spring' },
+              { logo: '/images/clients/siddhivinayak.png', name: 'Siddhivinayak' },
+              { logo: '/images/clients/nashik-city-centre.png', name: 'Nashik City Centre' },
+              { logo: '/images/clients/hotel-aram.png', name: 'Hotel Aram' },
             ].map((client, index) => (
               <motion.div
                 key={index}
@@ -487,16 +623,16 @@ const About = () => {
             ))}
           </div>
 
-          {/* <div className="text-center mt-12">
+          <div className="text-center mt-12">
             <p className="text-[#4A4A4A] text-sm">
               And many more satisfied clients across hospitality, retail, residential, and commercial sectors
             </p>
-          </div> */}
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="mb-10">
+      <section className="section-padding">
         <div className="container-custom text-center">
           <h2 className="font-display text-3xl lg:text-4xl text-[#0D0D0D] mb-6">
             Ready to Illuminate Your Space?

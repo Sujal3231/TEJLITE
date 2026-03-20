@@ -5,24 +5,20 @@ import { ArrowRight, ChevronDown, Quote, Download, Loader2 } from 'lucide-react'
 import { toast } from 'sonner';
 import { 
   fetchProducts, 
-  fetchProjects, 
-  fetchServices, 
   fetchCatalogs,
   fetchCategories,
   fetchTestimonials,
   type Product,
-  type Project,
-  type Service,
   type Catalog,
   type Category,
   type Testimonial
 } from '@/services/products';
 
 const stats = [
-  { label: 'Years', value: 47, suffix: '+' },
+  { label: 'Years', value: new Date().getFullYear() - 1976, suffix: '+' },
   { label: 'Projects', value: 1000, suffix: '+' },
   { label: 'Products', value: 500, suffix: '+' },
-  { label: 'Countries', value: 20, suffix: '+' },
+  // { label: 'Countries', value: 20, suffix: '+' },
 ];
 
 // Animated Counter Component
@@ -65,8 +61,6 @@ const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [allFeaturedProducts, setAllFeaturedProducts] = useState<Product[]>([]); // Store all featured products
   const [selectedCategory, setSelectedCategory] = useState<string>('all'); // Track selected category
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [latestCatalogs, setLatestCatalogs] = useState<Catalog[]>([]);
@@ -79,10 +73,8 @@ const Home = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [productsData, projectsData, servicesData, catalogsData, categoriesData, testimonialsData] = await Promise.all([
+      const [productsData, catalogsData, categoriesData, testimonialsData] = await Promise.all([
         fetchProducts(),
-        fetchProjects(),
-        fetchServices(),
         fetchCatalogs(),
         fetchCategories(),
         fetchTestimonials().catch(err => {
@@ -99,16 +91,6 @@ const Home = () => {
       setFeaturedProducts(featured.slice(0, 4)); // Show first 4
 
       // Filter active projects and shuffle them (limit to 6)
-      const activeProjects = projectsData.filter(p => p.status === 'active');
-      const shuffled = activeProjects.sort(() => Math.random() - 0.5);
-      setProjects(shuffled.slice(0, 6));
-
-      // Filter featured and active services (limit to 4)
-      const featuredServices = servicesData
-        .filter(s => s.is_featured && s.status === 'active')
-        .slice(0, 4);
-      setServices(featuredServices);
-
       // Filter active categories sorted by sort_order (show all)
       const activeCategories = categoriesData
         .filter(c => c.status === 'active')
@@ -203,7 +185,7 @@ const Home = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="eyebrow mb-6"
           >
-            Bespoke Lighting Since 1977
+            Bespoke Lighting Since 1975
           </motion.p>
           
           <motion.h1
@@ -250,7 +232,7 @@ const Home = () => {
             >
               {[...Array(2)].map((_, i) => (
                 <div key={i} className="flex gap-12">
-                  <span className="text-white/60 font-heading text-sm uppercase tracking-[2px]">Since 1977</span>
+                  <span className="text-white/60 font-heading text-sm uppercase tracking-[2px]">Since 1975</span>
                   <span className="text-[#C9A84C]">•</span>
                   <span className="text-white/60 font-heading text-sm uppercase tracking-[2px]">Bespoke Craftsmanship</span>
                   <span className="text-[#C9A84C]">•</span>
@@ -333,16 +315,16 @@ const Home = () => {
       {/* Heritage Section */}
       <section className="section-padding bg-[#FAF7F2]">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
             {/* Image */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="relative"
+              className="relative order-2 lg:order-1"
             >
-              <div className="aspect-[4/5] overflow-hidden">
+              <div className="aspect-[4/5] lg:aspect-[4/5] overflow-hidden">
                 <img
                   src="/images/heritage.jpg"
                   alt="Craftsmanship"
@@ -352,7 +334,7 @@ const Home = () => {
                   }}
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-[#C9A84C]/10 -z-10" />
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 lg:w-48 lg:h-48 bg-[#C9A84C]/10 -z-10" />
             </motion.div>
 
             {/* Content */}
@@ -361,17 +343,18 @@ const Home = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
+              className="order-1 lg:order-2"
             >
               <p className="eyebrow mb-4">Our Heritage</p>
-              <h2 className="font-display text-4xl lg:text-5xl text-[#0D0D0D] mb-6">
+              <h2 className="font-display text-3xl lg:text-4xl xl:text-5xl text-[#0D0D0D] mb-4 lg:mb-6 leading-tight">
                 Four Decades of<br />Illuminating Excellence
               </h2>
-              <p className="text-[#4A4A4A] leading-relaxed mb-6">
-                Since 1977, Tej Lite has been at the forefront of bespoke lighting design. 
+              <p className="text-[#4A4A4A] leading-relaxed mb-4 lg:mb-6 text-sm lg:text-base">
+                Since 1975, Tej Lite has been at the forefront of bespoke lighting design. 
                 Our journey began with a simple vision: to create lighting fixtures that 
                 transcend mere functionality and become works of art.
               </p>
-              <p className="text-[#4A4A4A] leading-relaxed mb-8">
+              <p className="text-[#4A4A4A] leading-relaxed mb-6 lg:mb-8 text-sm lg:text-base">
                 Every piece we craft tells a story of meticulous craftsmanship, 
                 innovative design, and an unwavering commitment to excellence. From 
                 grand chandeliers that grace hotel lobbies to intimate pendant lights 
@@ -379,11 +362,11 @@ const Home = () => {
               </p>
 
               {/* Stats */}
-              <div className="grid grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
                 {stats.map((stat) => (
                   <div key={stat.label} className="text-center">
                     <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                    <p className="text-[#4A4A4A] text-sm mt-1">{stat.label}</p>
+                    <p className="text-[#4A4A4A] text-xs lg:text-sm mt-1">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -396,6 +379,8 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+
 
       {/* Featured Products Section */}
       <section className="section-padding bg-[#F2EDE4]">
@@ -504,128 +489,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="section-padding bg-[#1C1C1C]">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <p className="eyebrow mb-4">What We Offer</p>
-            <h2 className="font-display text-4xl lg:text-5xl text-white">
-              Complete Lighting Solutions
-            </h2>
-          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.length > 0 ? (
-              services.map((service, index) => (
-                <motion.div
-                  key={service.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group p-8 bg-white/5 border border-white/10 hover:border-[#C9A84C]/50 transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="w-16 h-16 mb-6 flex items-center justify-center bg-[#C9A84C]/10 text-[#C9A84C]">
-                    {service.icon_url ? (
-                      <img src={service.icon_url} alt={service.name} className="w-8 h-8" />
-                    ) : (
-                      <span className="text-3xl">✦</span>
-                    )}
-                  </div>
-                  <h3 className="font-display text-xl text-white mb-3">
-                    {service.name}
-                  </h3>
-                  <div className="w-12 h-[2px] bg-[#C9A84C] mb-4" />
-                  <p className="text-white/60 text-sm leading-relaxed mb-6">
-                    {service.short_description}
-                  </p>
-                  <Link
-                    to={`/services/${service.id}`}
-                    className="inline-flex items-center gap-2 text-[#C9A84C] font-heading text-xs uppercase tracking-[1px] hover:gap-3 transition-all"
-                  >
-                    Learn More
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </motion.div>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-white/60">No services available</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Showcase */}
-      <section className="section-padding bg-[#FAF7F2]">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <p className="eyebrow mb-4">Portfolio</p>
-            <h2 className="font-display text-4xl lg:text-5xl text-[#0D0D0D]">
-              Our Work Speaks
-            </h2>
-          </div>
-
-          {/* Masonry Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]">
-            {projects.length > 0 ? (
-              projects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className={`group relative overflow-hidden cursor-pointer bg-[#1C1C1C] ${
-                    index === 0 || index === 5 ? 'col-span-2 row-span-2' : ''
-                  }`}
-                >
-                  <Link to={`/projects/${project.id}`}>
-                    {project.hero_image_url || (project.images && project.images.length > 0) ? (
-                      <img
-                        src={project.hero_image_url || project.images![0]}
-                        alt={project.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[#C9A84C]/20">
-                        <span className="text-6xl">✦</span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform">
-                      <span className="text-[#C9A84C] font-heading text-xs uppercase tracking-[1px] mb-2 block">
-                        {project.project_type}
-                      </span>
-                      <h3 className="font-display text-xl text-white mb-1">
-                        {project.name}
-                      </h3>
-                      <p className="text-white/60 text-sm">
-                        {project.location}
-                      </p>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-[#4A4A4A]">No projects available</p>
-              </div>
-            )}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/projects" className="btn-secondary">
-              View All Projects
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials Section */}
       {testimonials.length > 0 && (
-        <section className="section-padding bg-[#F2EDE4]">
+        <section className="section-padding">
           <div className="container-custom max-w-4xl">
             <div className="text-center mb-12">
               <p className="eyebrow mb-4">Testimonials</p>
