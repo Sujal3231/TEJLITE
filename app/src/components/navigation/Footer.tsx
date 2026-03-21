@@ -116,7 +116,7 @@ const Footer = () => {
             </Link>
             <p className="text-white/60 text-sm leading-relaxed">
               Crafting extraordinary lighting solutions for luxury homes, hotels, 
-              and commercial spaces. Four decades of illuminating excellence.
+              and commercial spaces. More than five decades of illuminating excellence.
             </p>
             
             {/* Social Icons */}

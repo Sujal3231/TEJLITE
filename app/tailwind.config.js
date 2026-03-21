@@ -4,6 +4,13 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Figtree', 'sans-serif'],
+        display: ['Figtree', 'sans-serif'],
+        heading: ['Figtree', 'sans-serif'],
+        body: ['Figtree', 'sans-serif'],
+        hero: ['Nunito', 'sans-serif'],
+      },        
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

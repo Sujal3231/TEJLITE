@@ -192,7 +192,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="font-display text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight"
+            className="font-hero text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight font-bold"
           >
             Crafting Light,<br />
             <span className="text-[#C9A84C]">Defining Spaces</span>
@@ -202,7 +202,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.8 }}
-            className="text-white/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto"
+            className="text-white/90 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light tracking-wide"
           >
             Chandeliers & Custom Lighting for Extraordinary Interiors
           </motion.p>

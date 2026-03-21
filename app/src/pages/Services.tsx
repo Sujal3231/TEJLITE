@@ -204,7 +204,7 @@ const Services = () => {
               },
               {
                 title: "Value Engineering",
-                description: "We optimize specifications to reduce costs and keep your project within budget—without compromising quality or performance.",
+                description: "We optimize specifications to reduce costs and keep your project within budget,without compromising quality or performance.",
                 icon: <RiCoinLine className="w-8 h-8 text-[#C9A84C]" />
               }
             ].map((item, index) => (
