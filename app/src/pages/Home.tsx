@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import { ArrowRight, ChevronDown, Quote, Download, Loader2 } from 'lucide-react';
+import { ArrowRight, ChevronDown, Quote, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { 
   fetchProducts, 
-  fetchCatalogs,
   fetchCategories,
   fetchTestimonials,
   type Product,
-  type Catalog,
   type Category,
   type Testimonial
 } from '@/services/products';
@@ -63,7 +61,6 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all'); // Track selected category
   const [categories, setCategories] = useState<Category[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [latestCatalogs, setLatestCatalogs] = useState<Catalog[]>([]);
 
   // Load data from Firebase
   useEffect(() => {
@@ -73,9 +70,8 @@ const Home = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [productsData, catalogsData, categoriesData, testimonialsData] = await Promise.all([
+      const [productsData, categoriesData, testimonialsData] = await Promise.all([
         fetchProducts(),
-        fetchCatalogs(),
         fetchCategories(),
         fetchTestimonials().catch(err => {
           console.warn('Failed to load testimonials:', err);
@@ -100,13 +96,6 @@ const Home = () => {
       // Filter active testimonials
       const activeTestimonials = testimonialsData.filter(t => t.status === 'active');
       setTestimonials(activeTestimonials);
-
-      // Get latest 3 catalogs
-      const latestThree = catalogsData
-        .filter(c => c.status === 'active')
-        .sort((a, b) => b.year - a.year)
-        .slice(0, 3);
-      setLatestCatalogs(latestThree);
 
     } catch (error) {
       console.error('Error loading data:', error);
@@ -135,17 +124,6 @@ const Home = () => {
     } else {
       const filtered = allFeaturedProducts.filter(p => p.category_id === categoryId);
       setFeaturedProducts(filtered.slice(0, 4));
-    }
-  };
-
-  const handleViewCatalog = async (catalog: Catalog) => {
-    try {
-      // Open PDF in new tab
-      window.open(catalog.pdf_url, '_blank');
-      toast.success(`Opening ${catalog.title}...`);
-    } catch (error) {
-      console.error('Error opening catalog:', error);
-      toast.error('Failed to open catalog');
     }
   };
 
@@ -551,92 +529,8 @@ const Home = () => {
         </section>
       )}
 
-      {/* Catalog CTA Section */}
-      {latestCatalogs.length > 0 && (
-        <section className="section-padding bg-[#0D0D0D]">
-          <div className="container-custom">
-            <div className="text-center mb-12">
-              <p className="eyebrow mb-4">Our Catalogs</p>
-              <h2 className="font-display text-4xl lg:text-5xl text-white mb-6">
-                Explore Our Collections
-              </h2>
-              <p className="text-white/60 max-w-2xl mx-auto">
-                Browse our latest catalogs featuring luxury lighting solutions for every space
-              </p>
-            </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {latestCatalogs.map((catalog, index) => (
-                <motion.div
-                  key={catalog.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group"
-                >
-                  <div className="bg-[#1C1C1C] border border-white/10 overflow-hidden hover:border-[#C9A84C]/50 transition-colors">
-                    {/* Cover Image */}
-                    <div className="relative aspect-[4/3] overflow-hidden">
-                      {catalog.cover_image_url ? (
-                        <img
-                          src={catalog.cover_image_url}
-                          alt={catalog.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=400&q=80';
-                          }}
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-[#2C2C2C] flex items-center justify-center">
-                          <span className="text-[#C9A84C] text-6xl">✦</span>
-                        </div>
-                      )}
-                      
-                      {catalog.is_latest && (
-                        <span className="absolute top-4 left-4 px-3 py-1 bg-[#C9A84C] text-white text-xs font-heading uppercase tracking-[1px]">
-                          Latest
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Info */}
-                    <div className="p-6">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#C9A84C] font-heading text-xs uppercase tracking-[1px]">
-                          {catalog.year}
-                        </span>
-                      </div>
-                      <h3 className="font-display text-xl text-white mb-2">
-                        {catalog.title}
-                      </h3>
-                      {catalog.description && (
-                        <p className="text-white/60 text-sm line-clamp-2 mb-4">
-                          {catalog.description}
-                        </p>
-                      )}
-                      <button
-                        onClick={() => handleViewCatalog(catalog)}
-                        className="w-full px-4 py-3 bg-[#C9A84C] text-white hover:bg-[#A07830] transition-colors font-heading text-xs uppercase tracking-[1px] flex items-center justify-center gap-2"
-                      >
-                        <Download className="w-4 h-4" />
-                        View Catalog
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* View All Link */}
-            <div className="text-center mt-12">
-              <Link to="/catalogs" className="btn-secondary">
-                View All Catalogs
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
+      
     </div>
   );
 };
