@@ -1,8 +1,81 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { fetchCatalogs, updateCatalog, type Catalog } from '@/services/products';
+
+// Memoized catalog card component for better performance
+const CatalogCard = memo(({ catalog, index, onViewCatalog }: { 
+  catalog: Catalog; 
+  index: number; 
+  onViewCatalog: (catalog: Catalog) => void;
+}) => (
+  <motion.div
+    key={catalog.id}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: Math.min(index * 0.05, 0.3), duration: 0.4 }}
+    className="group"
+  >
+    <div>
+      {/* Catalog Cover - Optimized */}
+      <div className="relative mx-auto mb-6 cursor-pointer">
+        <div 
+          className="relative bg-white shadow-lg transition-shadow duration-200 group-hover:shadow-xl will-change-transform"
+          style={{
+            width: '280px',
+            height: '380px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+          }}
+        >
+          <img
+            src={catalog.cover_image_url}
+            alt={catalog.title}
+            className="w-full h-full object-cover"
+            loading={index < 6 ? "eager" : "lazy"}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=400&q=80';
+            }}
+          />
+          
+          {catalog.is_latest && (
+            <span className="absolute top-4 left-4 px-3 py-1 bg-[#C9A84C] text-white text-xs font-heading uppercase tracking-[1px]">
+              Latest
+            </span>
+          )}
+
+          {/* Hover Overlay - Simplified */}
+          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+            <button
+              onClick={() => onViewCatalog(catalog)}
+              className="px-6 py-3 bg-[#C9A84C] text-white font-heading text-xs uppercase tracking-[1px] hover:bg-[#A07830] transition-colors duration-200 flex items-center gap-2"
+            >
+              <Eye className="w-4 h-4" />
+              View Catalog
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Info */}
+      <div>
+        <span className="text-[#C9A84C] font-heading text-xs uppercase tracking-[1px] mb-2 block">
+          {catalog.year}
+        </span>
+        <h3 className="font-display text-lg text-[#0D0D0D] mb-2">
+          {catalog.title}
+        </h3>
+        {catalog.description && (
+          <p className="text-[#4A4A4A] text-sm line-clamp-2">
+            {catalog.description}
+          </p>
+        )}
+      </div>
+    </div>
+  </motion.div>
+));
+
+CatalogCard.displayName = 'CatalogCard';
 
 const Catalogs = () => {
   const [catalogs, setCatalogs] = useState<Catalog[]>([]);
@@ -16,25 +89,30 @@ const Catalogs = () => {
     pincode: '',
   });
 
+  // Memoize filtered catalogs to avoid unnecessary re-renders
+  const activeCatalogs = useMemo(() => 
+    catalogs.filter(c => c.status === 'active'), 
+    [catalogs]
+  );
+
   useEffect(() => {
     loadCatalogs();
   }, []);
 
-  const loadCatalogs = async () => {
+  const loadCatalogs = useCallback(async () => {
     try {
       setLoading(true);
       const data = await fetchCatalogs();
-      // Only show active catalogs
-      setCatalogs(data.filter(c => c.status === 'active'));
+      setCatalogs(data);
     } catch (error) {
       console.error('Error loading catalogs:', error);
       toast.error('Failed to load catalogs');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const handleViewCatalog = async (catalog: Catalog) => {
+  const handleViewCatalog = useCallback(async (catalog: Catalog) => {
     try {
       // Increment download count
       await updateCatalog(catalog.id, {
@@ -49,13 +127,17 @@ const Catalogs = () => {
       console.error('Error opening catalog:', error);
       toast.error('Failed to open catalog');
     }
-  };
+  }, []);
 
-  const handleRequestSubmit = (e: React.FormEvent) => {
+  const handleFormChange = useCallback((field: string, value: string) => {
+    setRequestForm(prev => ({ ...prev, [field]: value }));
+  }, []);
+
+  const handleRequestSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     toast.success('Digital catalog request submitted! We will send the PDF to your email within 24 hours.');
     setRequestForm({ name: '', email: '', phone: '', address: '', city: '', pincode: '' });
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
@@ -66,6 +148,7 @@ const Catalogs = () => {
             src="/images/catalogs-hero.jpg"
             alt="Our Catalogs"
             className="w-full h-full object-cover"
+            loading="eager"
             onError={(e) => {
               (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=1920&q=80';
             }}
@@ -75,24 +158,25 @@ const Catalogs = () => {
         
         <div className="relative z-10 text-center px-4">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
             className="eyebrow mb-4"
           >
             Download
           </motion.p>
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.1, duration: 0.4 }}
             className="font-display text-4xl lg:text-5xl text-white mb-4"
           >
             Our Catalogs
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.2, duration: 0.4 }}
             className="text-white/80 max-w-2xl"
           >
             Browse and download our complete range of lighting catalogs. 
@@ -109,80 +193,20 @@ const Catalogs = () => {
               <Loader2 className="w-12 h-12 animate-spin text-[#C9A84C] mx-auto mb-4" />
               <p className="text-[#4A4A4A]">Loading catalogs...</p>
             </div>
-          ) : catalogs.length === 0 ? (
+          ) : activeCatalogs.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-[#4A4A4A] text-lg mb-4">No catalogs available at the moment.</p>
               <p className="text-[#4A4A4A]">Please check back later.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {catalogs.map((catalog, index) => (
-                <motion.div
+              {activeCatalogs.map((catalog, index) => (
+                <CatalogCard 
                   key={catalog.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group"
-                >
-                  <div className="bg-white border border-[#E5E0D5] overflow-hidden">
-                    {/* Cover Image */}
-                    <div 
-                      className="relative aspect-[4/3] overflow-hidden cursor-pointer"
-                      style={{ perspective: '800px' }}
-                    >
-                      <div className="w-full h-full transition-transform duration-500 group-hover:rotate-y-6 group-hover:shadow-2xl">
-                        <img
-                          src={catalog.cover_image_url}
-                          alt={catalog.title}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=400&q=80';
-                          }}
-                        />
-                      </div>
-                      
-                      {catalog.is_latest && (
-                        <span className="absolute top-4 left-4 px-3 py-1 bg-[#C9A84C] text-white text-xs font-heading uppercase tracking-[1px]">
-                          Latest
-                        </span>
-                      )}
-
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <button
-                          onClick={() => handleViewCatalog(catalog)}
-                          className="px-6 py-3 bg-[#C9A84C] text-white font-heading text-xs uppercase tracking-[1px] hover:bg-[#A07830] transition-colors flex items-center gap-2"
-                        >
-                          <Eye className="w-4 h-4" />
-                          View Catalog
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Info */}
-                    <div className="p-6">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#C9A84C] font-heading text-xs uppercase tracking-[1px]">
-                          {catalog.year}
-                        </span>
-                        {/* {catalog.download_count > 0 && (
-                          <span className="text-[#4A4A4A] text-sm">
-                            {catalog.download_count} downloads
-                          </span>
-                        )} */}
-                      </div>
-                      <h3 className="font-display text-lg text-[#0D0D0D] mb-2">
-                        {catalog.title}
-                      </h3>
-                      {catalog.description && (
-                        <p className="text-[#4A4A4A] text-sm line-clamp-2">
-                          {catalog.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
+                  catalog={catalog}
+                  index={index}
+                  onViewCatalog={handleViewCatalog}
+                />
               ))}
             </div>
           )}
@@ -193,9 +217,9 @@ const Catalogs = () => {
       <section className="section-padding bg-[#F2EDE4]">
         <div className="container-custom text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
             <p className="eyebrow mb-4">Need Help?</p>
             <h2 className="font-display text-3xl lg:text-4xl text-[#0D0D0D] mb-6">
@@ -268,7 +292,7 @@ const Catalogs = () => {
                       type="text"
                       required
                       value={requestForm.name}
-                      onChange={(e) => setRequestForm({ ...requestForm, name: e.target.value })}
+                      onChange={(e) => handleFormChange('name', e.target.value)}
                       className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
@@ -280,7 +304,7 @@ const Catalogs = () => {
                       type="email"
                       required
                       value={requestForm.email}
-                      onChange={(e) => setRequestForm({ ...requestForm, email: e.target.value })}
+                      onChange={(e) => handleFormChange('email', e.target.value)}
                       className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
@@ -292,7 +316,7 @@ const Catalogs = () => {
                       type="tel"
                       required
                       value={requestForm.phone}
-                      onChange={(e) => setRequestForm({ ...requestForm, phone: e.target.value })}
+                      onChange={(e) => handleFormChange('phone', e.target.value)}
                       className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
@@ -303,7 +327,7 @@ const Catalogs = () => {
                     <input
                       type="text"
                       value={requestForm.city}
-                      onChange={(e) => setRequestForm({ ...requestForm, city: e.target.value })}
+                      onChange={(e) => handleFormChange('city', e.target.value)}
                       className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
@@ -316,7 +340,7 @@ const Catalogs = () => {
                   <textarea
                     rows={3}
                     value={requestForm.address}
-                    onChange={(e) => setRequestForm({ ...requestForm, address: e.target.value })}
+                    onChange={(e) => handleFormChange('address', e.target.value)}
                     placeholder="Tell us about your project or specific requirements..."
                     className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                   />

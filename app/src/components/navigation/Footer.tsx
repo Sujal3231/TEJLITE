@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { fetchSiteSettings, fetchCategories } from '@/services/products';
 import type { SiteSettings, Category } from '@/types';
 
-// Import the new logo
+
 import tejLiteLogo from '../../images/logo/Tej Lite Logo.png';
 
 const quickLinks = [
@@ -45,7 +45,6 @@ const Footer = () => {
     try {
       setLoadingCategories(true);
       const data = await fetchCategories();
-      // Filter only active categories
       const activeCategories = data.filter(cat => cat.status === 'active');
       setCategories(activeCategories);
     } catch (error) {
@@ -57,17 +56,16 @@ const Footer = () => {
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle newsletter signup
     console.log('Newsletter signup:', email);
     setEmail('');
   };
 
   return (
     <footer className="bg-[#0D0D0D] text-white">
-      {/* Top Border */}
+     
       <div className="h-[1px] bg-gradient-to-r from-transparent via-[#C9A84C] to-transparent" />
 
-      {/* Newsletter Section */}
+      
       <div className="border-b border-white/10">
         <div className="container-custom py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -102,10 +100,10 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Main Footer Content */}
+      
       <div className="container-custom py-16">
         <div className={`grid grid-cols-1 md:grid-cols-2 gap-12 ${categories.length > 0 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
-          {/* Column 1: Brand Info */}
+          
           <div className="space-y-6">
             <Link to="/" className="inline-block">
               <img
@@ -119,7 +117,7 @@ const Footer = () => {
               and commercial spaces. More than five decades of illuminating excellence.
             </p>
             
-            {/* Social Icons */}
+            
             {!loadingSettings && (
               <div className="flex items-center gap-4">
                 {settings?.social_media?.instagram && (
@@ -166,7 +164,7 @@ const Footer = () => {
             )}
           </div>
 
-          {/* Column 2: Quick Links */}
+          
           <div>
             <h4 className="font-heading text-sm uppercase tracking-[2px] text-[#C9A84C] mb-6">
               Quick Links
@@ -223,7 +221,7 @@ const Footer = () => {
             </div>
           )}
 
-          {/* Column 4: Contact Info */}
+          
           <div>
             <h4 className="font-heading text-sm uppercase tracking-[2px] text-[#C9A84C] mb-6">
               Contact Us
@@ -282,7 +280,7 @@ const Footer = () => {
                   )}
                 </div>
 
-                {/* Google Maps Embed */}
+                
                 {settings?.address && (
                   <a 
                     href="https://maps.app.goo.gl/Dhhraccmjc2TH1yX8"
