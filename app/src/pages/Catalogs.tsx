@@ -115,6 +115,12 @@ const Catalogs = () => {
     [activeCatalogs, isUncategorized]
   );
 
+  // Only show a category tab if at least one active catalog is actually linked to it
+  const categoriesWithCatalogs = useMemo(() => {
+    const usedCategoryIds = new Set(activeCatalogs.map(c => c.categoryId).filter(Boolean));
+    return categories.filter(c => usedCategoryIds.has(c.id));
+  }, [categories, activeCatalogs]);
+
   const visibleCatalogs = useMemo(() => {
     if (activeCategoryId === 'all') return activeCatalogs;
     if (activeCategoryId === OTHERS_CATEGORY_ID) return activeCatalogs.filter(isUncategorized);
@@ -236,7 +242,7 @@ const Catalogs = () => {
             </div>
           ) : (
             <>
-              {(categories.length > 0 || hasUncategorizedCatalogs) && (
+              {(categoriesWithCatalogs.length > 0 || hasUncategorizedCatalogs) && (
                 <div className="flex flex-wrap justify-center gap-3 mb-10">
                   <button
                     onClick={() => setActiveCategoryId('all')}
@@ -248,7 +254,7 @@ const Catalogs = () => {
                   >
                     All
                   </button>
-                  {categories.map(category => (
+                  {categoriesWithCatalogs.map(category => (
                     <button
                       key={category.id}
                       onClick={() => setActiveCategoryId(category.id)}
