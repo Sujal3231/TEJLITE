@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchCategories, fetchSubcategories, type Category, type Subcategory } from '@/services/products';
+import tejLiteLogo from '../../images/logo/Tej Lite Logo.png';
 
 interface CategoryWithSubs extends Category {
   subcategories: Subcategory[];
@@ -93,13 +94,15 @@ const Navigation = () => {
         <nav className="h-20 lg:h-20 flex items-center">
           <div className="container-custom w-full flex items-center justify-between">
             {/* Logo */}
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="flex items-center gap-2 animate-slide-left"
             >
-              <span className="font-display text-2xl lg:text-3xl font-bold text-[#C9A84C] tracking-wide">
-                TEJ LITE
-              </span>
+              <img
+                src={tejLiteLogo}
+                alt="TEJ LITE"
+                className="h-14 w-auto"
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -130,14 +133,6 @@ const Navigation = () => {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-4">
-              {/* Search Icon */}
-              <button 
-                className="hidden lg:flex w-10 h-10 items-center justify-center text-white/90 hover:text-[#C9A84C] transition-colors"
-                aria-label="Search"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-
               {/* Enquire Now Button */}
               <Link
                 to="/contact"

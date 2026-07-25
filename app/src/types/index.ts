@@ -145,7 +145,18 @@ export interface Catalog {
   download_count: number;
   is_latest: boolean;
   status: 'active' | 'hidden';
+  categoryId?: string;
+  categoryName?: string;
   created_at?: string;
+}
+
+// Catalog Category Types (independent of Product Categories)
+export interface CatalogCategory {
+  id: string;
+  name: string;
+  slug: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // Enquiry Types

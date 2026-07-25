@@ -24,6 +24,7 @@ import type {
     ProjectImage,
     Service,
     Catalog,
+    CatalogCategory,
     Enquiry,
     Testimonial,
     SiteSettings
@@ -58,6 +59,7 @@ const projectsCollection = collection(db, 'projects');
 // const projectImagesCollection = collection(db, 'project_images');
 const servicesCollection = collection(db, 'services');
 const catalogsCollection = collection(db, 'catalogs');
+const catalogCategoriesCollection = collection(db, 'catalogCategories');
 const enquiriesCollection = collection(db, 'enquiries');
 
 // ============ CATEGORIES ============
@@ -576,6 +578,8 @@ export const fetchCatalogs = async (): Promise<Catalog[]> => {
             download_count: data.download_count || 0,
             is_latest: data.is_latest || false,
             status: data.status || 'active',
+            categoryId: data.categoryId || undefined,
+            categoryName: data.categoryName || undefined,
             created_at: timestampToString(data.created_at)
         } as Catalog;
     });
@@ -596,6 +600,8 @@ export const fetchCatalogById = async (id: string): Promise<Catalog | undefined>
             download_count: data.download_count || 0,
             is_latest: data.is_latest || false,
             status: data.status || 'active',
+            categoryId: data.categoryId || undefined,
+            categoryName: data.categoryName || undefined,
             created_at: timestampToString(data.created_at)
         } as Catalog;
     }
@@ -612,6 +618,8 @@ export const createCatalog = async (catalog: Partial<Catalog>): Promise<string> 
         download_count: 0,
         is_latest: catalog.is_latest || false,
         status: catalog.status || 'active',
+        categoryId: catalog.categoryId || null,
+        categoryName: catalog.categoryName || null,
         created_at: serverTimestamp()
     };
     const docRef = await addDoc(catalogsCollection, catalogData);
@@ -628,8 +636,86 @@ export const updateCatalog = async (id: string, catalog: Partial<Catalog>): Prom
     if (catalog.download_count !== undefined) catalogData.download_count = catalog.download_count;
     if (catalog.is_latest !== undefined) catalogData.is_latest = catalog.is_latest;
     if (catalog.status) catalogData.status = catalog.status;
-    
+    if (catalog.categoryId !== undefined) catalogData.categoryId = catalog.categoryId;
+    if (catalog.categoryName !== undefined) catalogData.categoryName = catalog.categoryName;
+
     await updateDoc(doc(db, 'catalogs', id), catalogData);
+};
+
+// ============ CATALOG CATEGORIES ============
+// Independent from Product Categories - used only on the Catalog page/admin.
+export const fetchCatalogCategories = async (): Promise<CatalogCategory[]> => {
+    const snapshot = await getDocs(query(catalogCategoriesCollection, orderBy('name')));
+    return snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+            id: doc.id,
+            name: data.name,
+            slug: data.slug || generateSlug(data.name),
+            createdAt: timestampToString(data.createdAt),
+            updatedAt: timestampToString(data.updatedAt)
+        } as CatalogCategory;
+    });
+};
+
+export const createCatalogCategory = async (name: string): Promise<CatalogCategory> => {
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+        throw new Error('Category name is required');
+    }
+
+    const existing = await getDocs(catalogCategoriesCollection);
+    const isDuplicate = existing.docs.some(
+        d => (d.data().name || '').toLowerCase() === trimmedName.toLowerCase()
+    );
+    if (isDuplicate) {
+        throw new Error('A category with this name already exists');
+    }
+
+    const slug = generateSlug(trimmedName);
+    const docRef = await addDoc(catalogCategoriesCollection, {
+        name: trimmedName,
+        slug,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+    });
+
+    return { id: docRef.id, name: trimmedName, slug };
+};
+
+export const updateCatalogCategory = async (id: string, name: string): Promise<void> => {
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+        throw new Error('Category name is required');
+    }
+
+    const existing = await getDocs(catalogCategoriesCollection);
+    const isDuplicate = existing.docs.some(
+        d => d.id !== id && (d.data().name || '').toLowerCase() === trimmedName.toLowerCase()
+    );
+    if (isDuplicate) {
+        throw new Error('A category with this name already exists');
+    }
+
+    await updateDoc(doc(db, 'catalogCategories', id), {
+        name: trimmedName,
+        slug: generateSlug(trimmedName),
+        updatedAt: serverTimestamp()
+    });
+};
+
+export const isCatalogCategoryInUse = async (categoryId: string): Promise<boolean> => {
+    const q = query(catalogsCollection, where('categoryId', '==', categoryId));
+    const snapshot = await getDocs(q);
+    return !snapshot.empty;
+};
+
+export const deleteCatalogCategory = async (id: string): Promise<void> => {
+    const inUse = await isCatalogCategoryInUse(id);
+    if (inUse) {
+        throw new Error('This category is assigned to existing catalogs. Please move those catalogs before deleting it.');
+    }
+    await deleteDoc(doc(db, 'catalogCategories', id));
 };
 
 export const deleteCatalog = async (id: string): Promise<void> => {
@@ -775,6 +861,7 @@ export type {
     ProjectImage,
     Service,
     Catalog,
+    CatalogCategory,
     Enquiry,
     Testimonial
 };

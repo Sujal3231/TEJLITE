@@ -52,6 +52,12 @@ service cloud.firestore {
       allow read: if true;
       allow create, update, delete: if true; // Temporarily allow public write for setup
     }
+
+    // Catalog Categories collection (independent of Product Categories)
+    match /catalogCategories/{catalogCategoryId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
     
     // Testimonials collection
     match /testimonials/{testimonialId} {

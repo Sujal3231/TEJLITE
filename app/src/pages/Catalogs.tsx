@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { fetchCatalogs, updateCatalog, type Catalog } from '@/services/products';
+import { fetchCatalogs, fetchCatalogCategories, updateCatalog, type Catalog, type CatalogCategory } from '@/services/products';
 
 // Memoized catalog card component for better performance
 const CatalogCard = memo(({ catalog, index, onViewCatalog }: { 
@@ -20,8 +20,8 @@ const CatalogCard = memo(({ catalog, index, onViewCatalog }: {
     <div>
       {/* Catalog Cover - Optimized */}
       <div className="relative mx-auto mb-6 cursor-pointer">
-        <div 
-          className="relative bg-white shadow-lg transition-shadow duration-200 group-hover:shadow-xl will-change-transform"
+        <div
+          className="relative bg-white shadow-lg transition-shadow duration-200 group-hover:shadow-xl will-change-transform rounded-[6px] overflow-hidden"
           style={{
             width: '280px',
             height: '380px',
@@ -37,9 +37,9 @@ const CatalogCard = memo(({ catalog, index, onViewCatalog }: {
               (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=400&q=80';
             }}
           />
-          
+
           {catalog.is_latest && (
-            <span className="absolute top-4 left-4 px-3 py-1 bg-[#C9A84C] text-white text-xs font-heading uppercase tracking-[1px]">
+            <span className="absolute top-4 left-4 px-3 py-1 rounded-[6px] bg-[#C9A84C] text-white text-xs font-heading uppercase tracking-[1px]">
               Latest
             </span>
           )}
@@ -48,7 +48,7 @@ const CatalogCard = memo(({ catalog, index, onViewCatalog }: {
           <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
             <button
               onClick={() => onViewCatalog(catalog)}
-              className="px-6 py-3 bg-[#C9A84C] text-white font-heading text-xs uppercase tracking-[1px] hover:bg-[#A07830] transition-colors duration-200 flex items-center gap-2"
+              className="px-6 py-3 rounded-[6px] bg-[#C9A84C] text-white font-heading text-xs uppercase tracking-[1px] hover:bg-[#A07830] transition-colors duration-200 flex items-center gap-2"
             >
               <Eye className="w-4 h-4" />
               View Catalog
@@ -77,9 +77,14 @@ const CatalogCard = memo(({ catalog, index, onViewCatalog }: {
 
 CatalogCard.displayName = 'CatalogCard';
 
+// Virtual category for catalogs that have no category (or one that no longer exists)
+const OTHERS_CATEGORY_ID = '__others__';
+
 const Catalogs = () => {
   const [catalogs, setCatalogs] = useState<Catalog[]>([]);
+  const [categories, setCategories] = useState<CatalogCategory[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeCategoryId, setActiveCategoryId] = useState<string>('all');
   const [requestForm, setRequestForm] = useState({
     name: '',
     email: '',
@@ -90,13 +95,35 @@ const Catalogs = () => {
   });
 
   // Memoize filtered catalogs to avoid unnecessary re-renders
-  const activeCatalogs = useMemo(() => 
-    catalogs.filter(c => c.status === 'active'), 
+  const activeCatalogs = useMemo(() =>
+    catalogs.filter(c => c.status === 'active'),
     [catalogs]
   );
 
+  const knownCategoryIds = useMemo(() =>
+    new Set(categories.map(c => c.id)),
+    [categories]
+  );
+
+  const isUncategorized = useCallback((catalog: Catalog) =>
+    !catalog.categoryId || !knownCategoryIds.has(catalog.categoryId),
+    [knownCategoryIds]
+  );
+
+  const hasUncategorizedCatalogs = useMemo(() =>
+    activeCatalogs.some(isUncategorized),
+    [activeCatalogs, isUncategorized]
+  );
+
+  const visibleCatalogs = useMemo(() => {
+    if (activeCategoryId === 'all') return activeCatalogs;
+    if (activeCategoryId === OTHERS_CATEGORY_ID) return activeCatalogs.filter(isUncategorized);
+    return activeCatalogs.filter(c => c.categoryId === activeCategoryId);
+  }, [activeCatalogs, activeCategoryId, isUncategorized]);
+
   useEffect(() => {
     loadCatalogs();
+    loadCategories();
   }, []);
 
   const loadCatalogs = useCallback(async () => {
@@ -109,6 +136,15 @@ const Catalogs = () => {
       toast.error('Failed to load catalogs');
     } finally {
       setLoading(false);
+    }
+  }, []);
+
+  const loadCategories = useCallback(async () => {
+    try {
+      const data = await fetchCatalogCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error loading catalog categories:', error);
     }
   }, []);
 
@@ -199,16 +235,64 @@ const Catalogs = () => {
               <p className="text-[#4A4A4A]">Please check back later.</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {activeCatalogs.map((catalog, index) => (
-                <CatalogCard 
-                  key={catalog.id}
-                  catalog={catalog}
-                  index={index}
-                  onViewCatalog={handleViewCatalog}
-                />
-              ))}
-            </div>
+            <>
+              {(categories.length > 0 || hasUncategorizedCatalogs) && (
+                <div className="flex flex-wrap justify-center gap-3 mb-10">
+                  <button
+                    onClick={() => setActiveCategoryId('all')}
+                    className={`px-5 py-2 rounded-[6px] font-heading text-xs uppercase tracking-[1px] transition-colors ${
+                      activeCategoryId === 'all'
+                        ? 'bg-[#C9A84C] text-white'
+                        : 'bg-white text-[#4A4A4A] hover:bg-[#F2EDE4] border border-[#E5E0D5]'
+                    }`}
+                  >
+                    All
+                  </button>
+                  {categories.map(category => (
+                    <button
+                      key={category.id}
+                      onClick={() => setActiveCategoryId(category.id)}
+                      className={`px-5 py-2 rounded-[6px] font-heading text-xs uppercase tracking-[1px] transition-colors ${
+                        activeCategoryId === category.id
+                          ? 'bg-[#C9A84C] text-white'
+                          : 'bg-white text-[#4A4A4A] hover:bg-[#F2EDE4] border border-[#E5E0D5]'
+                      }`}
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                  {hasUncategorizedCatalogs && (
+                    <button
+                      onClick={() => setActiveCategoryId(OTHERS_CATEGORY_ID)}
+                      className={`px-5 py-2 rounded-[6px] font-heading text-xs uppercase tracking-[1px] transition-colors ${
+                        activeCategoryId === OTHERS_CATEGORY_ID
+                          ? 'bg-[#C9A84C] text-white'
+                          : 'bg-white text-[#4A4A4A] hover:bg-[#F2EDE4] border border-[#E5E0D5]'
+                      }`}
+                    >
+                      Others
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {visibleCatalogs.length === 0 ? (
+                <div className="text-center py-20">
+                  <p className="text-[#4A4A4A] text-lg">No catalogs found in this category.</p>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {visibleCatalogs.map((catalog, index) => (
+                    <CatalogCard
+                      key={catalog.id}
+                      catalog={catalog}
+                      index={index}
+                      onViewCatalog={handleViewCatalog}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
@@ -293,7 +377,7 @@ const Catalogs = () => {
                       required
                       value={requestForm.name}
                       onChange={(e) => handleFormChange('name', e.target.value)}
-                      className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
+                      className="w-full px-4 py-3 rounded-[6px] border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
                   <div>
@@ -305,7 +389,7 @@ const Catalogs = () => {
                       required
                       value={requestForm.email}
                       onChange={(e) => handleFormChange('email', e.target.value)}
-                      className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
+                      className="w-full px-4 py-3 rounded-[6px] border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
                   <div>
@@ -317,7 +401,7 @@ const Catalogs = () => {
                       required
                       value={requestForm.phone}
                       onChange={(e) => handleFormChange('phone', e.target.value)}
-                      className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
+                      className="w-full px-4 py-3 rounded-[6px] border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
                   <div>
@@ -328,7 +412,7 @@ const Catalogs = () => {
                       type="text"
                       value={requestForm.city}
                       onChange={(e) => handleFormChange('city', e.target.value)}
-                      className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
+                      className="w-full px-4 py-3 rounded-[6px] border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                     />
                   </div>
                 </div>
@@ -342,7 +426,7 @@ const Catalogs = () => {
                     value={requestForm.address}
                     onChange={(e) => handleFormChange('address', e.target.value)}
                     placeholder="Tell us about your project or specific requirements..."
-                    className="w-full px-4 py-3 border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
+                    className="w-full px-4 py-3 rounded-[6px] border border-[#E5E0D5] focus:outline-none focus:border-[#C9A84C]"
                   />
                 </div>
 
