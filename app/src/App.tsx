@@ -1,43 +1,52 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import ScrollToTop from '@/components/ScrollToTop';
+import { Loader2 } from 'lucide-react';
 
-// Public Pages
-import Home from '@/pages/Home';
-import Products from '@/pages/Products';
-import ProductDetail from '@/pages/ProductDetail';
-import Services from '@/pages/Services';
-import ServiceDetail from '@/pages/ServiceDetail';
-import Projects from '@/pages/Projects';
-import ProjectDetail from '@/pages/ProjectDetail';
-import Catalogs from '@/pages/Catalogs';
-import About from '@/pages/About';
-import Contact from '@/pages/Contact';
-import Setup from '@/pages/Setup';
-
-// Admin Pages
-import AdminLogin from '@/pages/admin/Login';
-import AdminDashboard from '@/pages/admin/Dashboard';
-import AdminProducts from '@/pages/admin/Products';
-import AdminCategories from '@/pages/admin/Categories';
-import AdminProjects from '@/pages/admin/Projects';
-import AdminServices from '@/pages/admin/Services';
-import AdminCatalogs from '@/pages/admin/Catalogs';
-import AdminEnquiries from '@/pages/admin/Enquiries';
-import AdminTestimonials from '@/pages/admin/Testimonials';
-import AdminSettings from '@/pages/admin/Settings';
-
-// Layouts
+// Layouts (keep eager - always needed)
 import MainLayout from '@/layouts/MainLayout';
-import AdminLayout from '@/layouts/AdminLayout';
+
+// Lazy-loaded public pages
+const Home = lazy(() => import('@/pages/Home'));
+const Products = lazy(() => import('@/pages/Products'));
+const ProductDetail = lazy(() => import('@/pages/ProductDetail'));
+const Services = lazy(() => import('@/pages/Services'));
+const ServiceDetail = lazy(() => import('@/pages/ServiceDetail'));
+const Projects = lazy(() => import('@/pages/Projects'));
+const ProjectDetail = lazy(() => import('@/pages/ProjectDetail'));
+const Catalogs = lazy(() => import('@/pages/Catalogs'));
+const About = lazy(() => import('@/pages/About'));
+const Contact = lazy(() => import('@/pages/Contact'));
+const Setup = lazy(() => import('@/pages/Setup'));
+
+// Lazy-loaded admin pages
+const AdminLogin = lazy(() => import('@/pages/admin/Login'));
+const AdminDashboard = lazy(() => import('@/pages/admin/Dashboard'));
+const AdminProducts = lazy(() => import('@/pages/admin/Products'));
+const AdminCategories = lazy(() => import('@/pages/admin/Categories'));
+const AdminProjects = lazy(() => import('@/pages/admin/Projects'));
+const AdminServices = lazy(() => import('@/pages/admin/Services'));
+const AdminCatalogs = lazy(() => import('@/pages/admin/Catalogs'));
+const AdminEnquiries = lazy(() => import('@/pages/admin/Enquiries'));
+const AdminTestimonials = lazy(() => import('@/pages/admin/Testimonials'));
+const AdminSettings = lazy(() => import('@/pages/admin/Settings'));
+const AdminLayout = lazy(() => import('@/layouts/AdminLayout'));
+
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-[#FAF7F2]">
+    <Loader2 className="w-10 h-10 animate-spin text-[#C9A84C]" />
+  </div>
+);
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <ScrollToTop />
+        <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<MainLayout />}>
@@ -74,6 +83,7 @@ function App() {
             <Route path="settings" element={<AdminSettings />} />
           </Route>
         </Routes>
+        </Suspense>
         <Toaster position="top-right" richColors />
       </Router>
     </AuthProvider>

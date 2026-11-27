@@ -144,8 +144,11 @@ const Home = () => {
         <div className="absolute inset-0 animate-ken-burns">
           <img
             src="/images/hero-bg.jpg"
-            alt="Luxury Chandelier"
+            alt="Luxury chandelier in an elegant interior"
             className="w-full h-full object-cover"
+            width={1920}
+            height={1080}
+            fetchPriority="high"
             onError={(e) => {
               (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=1920&q=80';
             }}
@@ -266,6 +269,9 @@ const Home = () => {
                         src={category.cover_image_url}
                         alt={category.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                        width={300}
+                        height={300}
                       />
                     ) : (
                       <div className="w-full h-full bg-[#1C1C1C] flex items-center justify-center">
@@ -305,8 +311,11 @@ const Home = () => {
               <div className="aspect-[4/5] lg:aspect-[4/5] overflow-hidden">
                 <img
                   src="/images/heritage.jpg"
-                  alt="Craftsmanship"
+                  alt="Artisan hand-crafting a bespoke lighting fixture"
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  width={800}
+                  height={1000}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80';
                   }}
@@ -418,6 +427,9 @@ const Home = () => {
                         src={product.images[0]}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                        width={400}
+                        height={300}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-[#C9A84C]/20">

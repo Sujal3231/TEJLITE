@@ -91,6 +91,7 @@ const Footer = () => {
               />
               <button
                 type="submit"
+                aria-label="Subscribe to newsletter"
                 className="px-6 py-3 bg-[#C9A84C] text-white hover:bg-[#A07830] transition-colors"
               >
                 <ArrowRight className="w-5 h-5" />
@@ -108,8 +109,11 @@ const Footer = () => {
             <Link to="/" className="inline-block">
               <img
                 src={tejLiteLogo}
-                alt={settings?.site_name || 'TEJ LITE'}
+                alt={settings?.site_name || 'Tej Lite - Home'}
                 className="h-20 w-auto"
+                width={170}
+                height={80}
+                loading="lazy"
               />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed">
@@ -125,6 +129,7 @@ const Footer = () => {
                     href={settings.social_media.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Follow us on Instagram"
                     className="w-10 h-10 flex items-center justify-center bg-white/5 text-white/60 hover:bg-[#C9A84C] hover:text-white transition-all duration-300 hover:rotate-[5deg] hover:scale-110"
                   >
                     <Instagram className="w-5 h-5" />
@@ -135,6 +140,7 @@ const Footer = () => {
                     href={settings.social_media.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Follow us on Facebook"
                     className="w-10 h-10 flex items-center justify-center bg-white/5 text-white/60 hover:bg-[#C9A84C] hover:text-white transition-all duration-300 hover:rotate-[5deg] hover:scale-110"
                   >
                     <Facebook className="w-5 h-5" />
@@ -145,6 +151,7 @@ const Footer = () => {
                     href={settings.social_media.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Follow us on LinkedIn"
                     className="w-10 h-10 flex items-center justify-center bg-white/5 text-white/60 hover:bg-[#C9A84C] hover:text-white transition-all duration-300 hover:rotate-[5deg] hover:scale-110"
                   >
                     <Linkedin className="w-5 h-5" />
@@ -155,6 +162,7 @@ const Footer = () => {
                     href={settings.social_media.youtube}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Subscribe on YouTube"
                     className="w-10 h-10 flex items-center justify-center bg-white/5 text-white/60 hover:bg-[#C9A84C] hover:text-white transition-all duration-300 hover:rotate-[5deg] hover:scale-110"
                   >
                     <Youtube className="w-5 h-5" />

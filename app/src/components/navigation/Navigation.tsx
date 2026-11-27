@@ -100,8 +100,10 @@ const Navigation = () => {
             >
               <img
                 src={tejLiteLogo}
-                alt="TEJ LITE"
+                alt="Tej Lite - Home"
                 className="h-14 w-auto"
+                width={120}
+                height={56}
               />
             </Link>
 
@@ -262,8 +264,11 @@ const Navigation = () => {
                             {hoveredCategory && categories.find(c => c.id === hoveredCategory)?.cover_image_url ? (
                               <img
                                 src={categories.find(c => c.id === hoveredCategory)?.cover_image_url}
-                                alt={categories.find(c => c.id === hoveredCategory)?.name}
+                                alt={categories.find(c => c.id === hoveredCategory)?.name || 'Category preview'}
                                 className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                                loading="lazy"
+                                width={350}
+                                height={350}
                               />
                             ) : (
                               <div className="absolute inset-0 flex items-center justify-center">
